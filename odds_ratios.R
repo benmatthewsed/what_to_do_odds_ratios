@@ -83,77 +83,6 @@ ggsave(
   type = "cairo-png"
 )
 
-tibble(
-  group1 = seq(-10, 10, 0.01)
-) |> 
-  mutate(group2 = group1 + log(35),
-         prob1 = plogis(group1),
-         prob2 = plogis(group2)) |> 
-  filter(prob1 > 0.008 & prob1 < 0.009)
-
-contact_3_rate_case * 2e4
-contact_3_rate_control * 2e4
-
-
-fpn_yes <- 30
-fpn_no <- 70
-ctrl_yes <- 5
-ctrl_no <- 395
-
-fpn_odds <- fpn_yes / fpn_no
-ctrl_odds <- ctrl_yes / ctrl_no
-
-or <- fpn_odds / ctrl_odds
-
-
-calc_or <- function(fpn_prob, ctrl_prob, total_n){
-
-  fpn_yes <- round(fpn_prob * (total_n * 0.25))
-  fpn_no <- round((total_n * 0.25) - fpn_yes)
-  
-  ctrl_yes <- round(ctrl_prob * (total_n * 0.75))
-  ctrl_no <- round((total_n * 0.75) - ctrl_yes)
-  
-fpn_odds <- fpn_yes / fpn_no
-ctrl_odds <- ctrl_yes / ctrl_no
-
-or <- fpn_odds / ctrl_odds
-
-tibble(
-  fpn_yes = fpn_yes,
-  fpn_no = fpn_no,
-  ctrl_yes = ctrl_yes,
-  ctrl_no = ctrl_no,
-  or = or
-)
-
-}
-
-or_dat <- 
-crossing(
-  fpn_prob = seq(0.001, 0.991, 0.001),
-  ctrl_prob = seq(0.001, 0.991, 0.001)
-) |> 
-  mutate(or = map2(fpn_prob, ctrl_prob, ~ calc_or(.x, .y, total_n = 70000),
-                   .progress = TRUE))
-
-or_dat |> 
-  unnest(or) |> 
-  filter(or > 35 & or < 36) |> View()
-
-
-oc
-
-fpn_yes <- 90
-fpn_no <- 230
-ctrl_yes <- 5
-ctrl_no <- 440
-
-fpn_odds <- fpn_yes / fpn_no
-ctrl_odds <- ctrl_yes / ctrl_no
-
-or <- fpn_odds / ctrl_odds
-
 
 
 
@@ -177,130 +106,212 @@ dat3 <-
 tibble(
   reference = seq(-10, 10, 0.01)
 ) |> 
-  mutate(logs = map(reference, make_logs, seq(1, 100, 1),
+  mutate(logs = map(reference, make_logs, seq(1, 200, 1),
                     .progress = TRUE)) |> 
   select(-reference) |> 
   unnest(logs)
 
+# odds-ratios all the way to 200
+
+or_selection <- c(1, 1.25, 3, 5, 10, 25, 50, 100, 200)
+
+merlo_plot <- 
 dat3 |> 
   ggplot(aes(x = p_ref, y = p_or, colour = log_or, group = log_or)) +
-  geom_line(alpha = 0.3)
+  geom_line(alpha = 0.3) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                filter(log_or %in% or_selection),
+                              aes(label = log_or)) +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
 
 
-dat3 |> 
-  mutate(p_diff = p_or - p_ref) |> 
-  filter(log_or == 35) |> 
-  ggplot(aes(x = p_ref, y = p_diff, group = log_or)) +
-  geom_point()
-
-
-or_dat |> 
-  unnest(or) |> 
-  filter(or > 35 & or < 36) |> 
-  View()
-
-
-
-or_dat_7k <- 
-  crossing(
-    fpn_prob = seq(0.001, 0.991, 0.01),
-    ctrl_prob = seq(0.001, 0.991, 0.01)
-  ) |> 
-  mutate(or = map2(fpn_prob, ctrl_prob, ~ calc_or(.x, .y, total_n = 7000),
-                   .progress = TRUE))
-
-or_dat_7k |> 
-  unnest(or) |> 
-  filter(or > 35 & or < 36) |> 
-  View()
-
-
-# how is it possible to estimate this OR from data?
-
-or_subset <- 
-or_dat |> 
-  unnest(or) |> 
-  filter(or > 35 & or < 36) |> 
-  group_by(fpn_prob, ctrl_prob) |> 
-  nest()
-
-
-reformat_dat <- function(dat){
-dat |> 
-  select(-or) |> 
-  pivot_longer(cols= everything()) |> 
-  separate(col = name,
-           into = c("group", "health"),
-           sep = "_") |> 
-  pivot_wider(names_from = c(health),
-              values_from = value)
-}
-
-tmp <- or_subset$data[[1]] |> reformat_dat()
-
-tmp |> 
-  mutate(ratio = yes / no) |> 
-  summarise(or = ratio[group == "fpn"] / ratio[group == "ctrl"])
-
-get_results <- function(d){
-
-glm(cbind(yes, no) ~ group, data = d,
-      family = "binomial") |> 
-    broom::tidy() |> 
-    mutate(exp_est = exp(estimate),
-           conf_low = exp(estimate - 1.96 * std.error),
-           conf_upp = exp(estimate + 1.96 * std.error))
-}
-
-tidy_get_results <- function(da){
-  
-  reformat_dat(da) |> get_results()
-  
-}
-
-or_subset |> 
-  mutate(res = map(data, tidy_get_results)) |> 
-  unnest(res) |> View()
-
-  
-# so there's something funky here in my expectations between
-# ORs and odds? and log odds? and probabilities?
-  
-# so i guess you can calculate these massive ORs because it relates
-# to the _odds_ in the reference group not the probability?
-  
-# no i was just calculating the wrong thing...
-
-
-# so we want to hack together the probability of a FPN in the general public?
-
-population_prev <- 2e4 / 4.5e6
-
-# around half a percent
+# difference plot
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
-  filter(log_or == 35) |> 
-  ggplot(aes(x = p_ref, y = p_diff, group = log_or)) +
-  geom_vline(xintercept = 2e4 / 4.5e6) +
-  geom_point()
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.3) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or %in% or_selection),
+                              aes(label = log_or)) +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
 
 # but in the sample this is
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+# so what is a marginal effect?
+
+# for a given odds ratio it has to live on this line
+
+
+# MEM
+
+mem_dat <- 
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  filter(log_or == 35 & ref == -2)
+  
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  geom_point(data = mem_dat,
+             size = 2) +
+  geom_segment(data = mem_dat,
+               aes(xend = p_ref, yend = 0),
+               linetype = "dashed") +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+
+# MER plot
+
+mer_dat <- 
+  dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  filter(log_or == 35 & ref == -2 |
+           log_or == 35 & ref == -2.5)
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  geom_point(data = mer_dat,
+             size = 2) +
+  geom_segment(data = mer_dat,
+               aes(xend = p_ref, yend = 0),
+               linetype = "dashed") +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+# AMEs
+
+ame_dat <- 
+  dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
   filter(log_or == 35) |> 
-  ggplot(aes(x = p_ref, y = p_diff, group = log_or)) +
-  geom_vline(xintercept = 0.25) +
-  geom_point()
+  filter(ref %in% round(rnorm(100, -2, 1), 2))
 
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
-  filter(log_or >= 35 & log_or <= 36) |> 
-  filter(p_ref >= population_prev - 0.001 & p_ref <= population_prev + 0.001) |> 
-  ggplot(aes(x = p_ref, y = p_diff)) +
-  geom_point()
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  geom_point(data = ame_dat,
+             size = 2,
+             alpha = 0.5) +
+  geom_point(data = ame_dat |> 
+               summarise(p_ref = mean(p_ref),
+                         p_diff = mean(p_diff),
+                         log_or = mean(log_or)),
+             size = 3, colour = "red") +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+
+
+# back to our data --------------------------------------------------------
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  geom_vline(aes(xintercept = 0.25)) +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  filter(round(p_ref, 3) == 0.250,
+         log_or == 35)
+
+
+
+# for our study approximately 92% of people with 3 or more health conditions
+# had an fpn? yeah i think so!
+
+# increase in prob from prob of having an fpn with ! 3 or more health conditions
+# so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health
+# compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health
+
+
+
+
+# but we know that in the population the probability in the reference was
+# way way way lower
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
+  geom_line(alpha = 0.1) +
+  geomtextpath::geom_textline(data = dat3 |> 
+                                mutate(p_diff = p_or - p_ref) |> 
+                                filter(log_or == 35),
+                              aes(label = log_or)) +
+  geom_vline(aes(xintercept = 0.0004)) +
+  theme_minimal() +
+  labs(x = "Probability in reference group",
+       y = "Difference in probability in comparison group",
+       colour = "Odds\nratio") +
+  coord_equal()
+
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  filter(round(p_ref, 5) == 0.00044,
+         log_or == 35)
+
 
 
 # around 14% more likely
@@ -359,6 +370,10 @@ lockdown_n / total_n
 (1279 * 0.234) / (417 * 0.1) / (1850 / 8142)
 
 300 / 41
+
+300 / (300 + 41)
+
+
 
 (1850 + 1279 - 300) / (8142 + 417 - 41)
 
@@ -436,14 +451,5 @@ dat3 |>
    geom_vline(xintercept = 0.0004) +
   facet_wrap(~log_or)
 
-
-
-# but it's actually closer to 9%
-
-1850 / 9992
-
-30/105
-
-300/340
 
 
