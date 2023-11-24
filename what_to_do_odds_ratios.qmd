@@ -1,0 +1,141 @@
+---
+title: "What to do with an odds ratio of 35?"
+bibliography: policing_the_pandemic.bib
+author: "Dr. Ben Matthews | University of Stirling"
+date: "2023-06-28"
+format: revealjs
+editor: visual
+---
+
+## Outline
+
+-   This is *extremely* work-in-progress!
+-   Any and all comments much appreciated
+
+## Background
+
+-   This question came from the work of the [Policing the Pandemic in Scotland](https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic) project with excellent colleagues [Dr Vicky Gorton](https://www.law.ed.ac.uk/people/dr-victoria-gorton) and [Prof Susan McVie](https://www.law.ed.ac.uk/people/professor-susan-mcvie)
+
+-   Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls
+
+-   We want to know if people with more 'vulnerability' (read - service use) are more likely to have received a Covid FPN
+
+-   Because we have a case-control study design (people we know received a FPN and matched controls), we used conditional logistic regression [@kuo2018]
+
+-   We had three controls for each case
+
+-   (Although some people say this is the wrong thing because of course they do)
+
+## Stats
+
+-   One downside of the case-control design (and conditional logistic regression as a method) is that the Intercept in your regression model is basically meaningless
+
+-   The interecept reflects the prevalence of your outcome in your data for your reference category
+
+-   With a case-control design, the prevalence of the outcome is set by the study design - with three control for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!
+
+-   So we (as is recommended) default to using Odds Ratios
+
+-   However, some of our odds ratios are very high (up to 35!)
+
+-   If we were using regular logistic regression then we could happily construct marginal effects of our key variables, present them as percentage changes and get on with our lives
+
+-   ... but we can't do this (see above)
+
+## So what now?
+
+-   So we've been puzzling about what we *can* do. What follows is the result of going down this rabbit-hole
+
+-   It's only loosely related to our actual project!
+
+## What is a marginal effect?
+
+-   What we want to do is describe our Odds Ratios as differences in probabilities
+
+-   What we can do is describe *all* the differences in probabilities that are consistent with a given Odds Ratio
+
+-   This is just maths - for a particular odds ratio and a fixed 'reference' probability, we can calculate the difference in probabilities
+
+-   So if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe
+
+## figure
+
+![](03_figures/merlo_plot.png)
+
+## Difference in probabilities
+
+![](03_figures/diff_plot.png)
+
+-   This is the same data as above but showing the difference probabilities, not the raw probabilities
+
+## Sample plot
+
+![](03_figures/sample_plot.png)
+
+
+## Marginal effects
+
+- Every marginal effect for an Odds Ratio of 35 is on this line
+
+- This line represents the Universe of marginal effects for an odds ratio of 35
+
+- Aside: This is also a nice way of thinking about different flavours of marginal effect
+
+## Marginal effects at the mean
+
+![](03_figures/mem_plot.png)
+
+# Marginal effects at representative values
+
+
+![](03_figures/mer_plot.png)
+
+## Average marginal effects
+
+
+![](03_figures/ame_plot.png)
+
+## Back to our data
+
+![](03_figures/our_dat_plot.png)
+- Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
+
+
+- for our study approximately 92% of people with 3 or more health conditions
+ had an FPN? yeah i think so!
+
+- increase in prob from prob of having an fpn with ! 3 or more health conditions
+
+- so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health
+
+- compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health
+
+
+## We know things
+
+- But we know that this is not true in the population
+
+- In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%
+
+## Our plot again
+
+![](03_figures/our_dat_plot2.png)
+
+- This is an increase in probabilities of closer to 1.5 percentage points not 66
+
+## Was all this pointless?
+
+- But also... what's wrong with an odds ratio of 35?
+
+- We have no issue of generalizability - we have 100% of the relevant people
+
+- We also have either a massive issue with transportability/external validity, or we have no issue at all - it seems nonsensical to suggest that these results would generalize to another country or another pandemic. The results for lockdown one in Scotland don't even generalize to lockdown two - that's in our paper!
+
+## Also discriminatory accuracy
+
+- Hopefully I get chance to talk about this too
+
+## Thank you!
+
+::: {#refs}
+:::

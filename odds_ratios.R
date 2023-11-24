@@ -128,9 +128,18 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+ggsave(
+  here::here("03_figures", "merlo_plot.png"),
+  merlo_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
+
+
 
 # difference plot
 
+diff_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -145,8 +154,16 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+ggsave(
+  here::here("03_figures", "diff_plot.png"),
+  diff_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
+
 # but in the sample this is
 
+sample_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -161,6 +178,14 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+
+ggsave(
+  here::here("03_figures", "sample_plot.png"),
+  sample_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
+
 # so what is a marginal effect?
 
 # for a given odds ratio it has to live on this line
@@ -173,7 +198,7 @@ dat3 |>
   mutate(p_diff = p_or - p_ref) |> 
   filter(log_or == 35 & ref == -2)
   
-
+mem_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -193,6 +218,13 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+ggsave(
+  here::here("03_figures", "mem_plot.png"),
+  mem_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
+
 
 # MER plot
 
@@ -202,6 +234,7 @@ mer_dat <-
   filter(log_or == 35 & ref == -2 |
            log_or == 35 & ref == -2.5)
 
+mer_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -221,6 +254,13 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+ggsave(
+  here::here("03_figures", "mer_plot.png"),
+  mer_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
+
 # AMEs
 
 ame_dat <- 
@@ -229,7 +269,7 @@ ame_dat <-
   filter(log_or == 35) |> 
   filter(ref %in% round(rnorm(100, -2, 1), 2))
 
-
+ame_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -252,10 +292,17 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
-
+ggsave(
+  here::here("03_figures", "ame_plot.png"),
+  ame_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
 
 # back to our data --------------------------------------------------------
 
+
+our_dat_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -271,6 +318,13 @@ dat3 |>
        colour = "Odds\nratio") +
   coord_equal()
 
+
+ggsave(
+  here::here("03_figures", "our_dat_plot.png"),
+  our_dat_plot,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
@@ -292,6 +346,8 @@ dat3 |>
 # but we know that in the population the probability in the reference was
 # way way way lower
 
+
+our_dat_plot2 <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
   ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
@@ -300,12 +356,19 @@ dat3 |>
                                 mutate(p_diff = p_or - p_ref) |> 
                                 filter(log_or == 35),
                               aes(label = log_or)) +
-  geom_vline(aes(xintercept = 0.0004)) +
+  geom_vline(aes(xintercept = 0.00044)) +
   theme_minimal() +
   labs(x = "Probability in reference group",
        y = "Difference in probability in comparison group",
        colour = "Odds\nratio") +
   coord_equal()
+
+ggsave(
+  here::here("03_figures", "our_dat_plot2.png"),
+  our_dat_plot2,
+  height = 5, width = 7,
+  type = "cairo-png"
+)
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
