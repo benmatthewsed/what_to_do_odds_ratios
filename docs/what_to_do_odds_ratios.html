@@ -357,11 +357,12 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 
   <p class="date">2023-06-28</p>
 </section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
+<section id="before-we-begin" class="slide level2">
+<h2>Before we begin</h2>
 <ul>
 <li>This is <em>extremely</em> work-in-progress!</li>
 <li>Any and all comments much appreciated</li>
+<li>This isn’t going to be a standard background/methods/results story</li>
 </ul>
 </section>
 <section id="background" class="slide level2">
@@ -370,25 +371,30 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <li><p>This question came from the <a href="https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic">Policing the Pandemic in Scotland</a> project with excellent colleagues <a href="https://www.law.ed.ac.uk/people/dr-victoria-gorton">Dr Vicky Gorton</a> and <a href="https://www.law.ed.ac.uk/people/professor-susan-mcvie">Prof Susan McVie</a></p></li>
 <li><p>Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls</p></li>
 <li><p>We want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid FPN</p></li>
-<li><p>Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression <span class="citation" data-cites="kuo2018">(<a href="#/thank-you" role="doc-biblioref" onclick=""><strong>kuo2018?</strong></a>)</span></p></li>
-<li><p>We had three controls for each case</p></li>
-<li><p>(Although some people say this is the wrong method because of course they do)</p></li>
 </ul>
 </section>
 <section id="case-controls-and-conditional-logistic-regression" class="slide level2">
 <h2>Case-controls and conditional logistic regression</h2>
 <ul>
-<li><p>One downside of the case-control design (and conditional logistic regression as a method) is that the intercept in your regression model is basically meaningless</p></li>
-<li><p>The intercept reflects the prevalence of your outcome in your data for your reference category</p></li>
-<li><p>With a case-control design, the prevalence of the outcome is set by the study design - with three control for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!</p></li>
+<li><p>Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression <span class="citation" data-cites="gailLikelihoodCalculationsMatched1981">(<a href="#/thank-you" role="doc-biblioref" onclick="">GAIL, LUBIN, and RUBINSTEIN 1981</a>)</span></p></li>
+<li><p>We had three controls for each case</p></li>
+<li><p>(Although some people say this is the wrong method because of course they do <span class="citation" data-cites="kuoUnconditionalConditionalLogistic2018">(<a href="#/thank-you" role="doc-biblioref" onclick="">Kuo, Duan, and Grady 2018</a>)</span>)</p></li>
 </ul>
 </section>
 <section id="case-controls-and-conditional-logistic-regression-1" class="slide level2">
 <h2>Case-controls and conditional logistic regression</h2>
 <ul>
+<li><p>One downside of the case-control design (and associated methods) is that the intercept in your regression model is basically meaningless (<code>clogit</code> in Stata <a href="https://www.stata.com/manuals/rclogit.pdf">doesn’t even report it!</a>)</p></li>
+<li><p>This is because the intercept reflects the prevalence of your outcome in your data for your reference category</p></li>
+<li><p>With a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!</p></li>
+</ul>
+</section>
+<section id="case-controls-and-conditional-logistic-regression-2" class="slide level2">
+<h2>Case-controls and conditional logistic regression</h2>
+<ul>
 <li><p>So we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN</p></li>
-<li><p>However, some of our odds ratios are very high (up to 35!)</p></li>
-<li><p>If we were using regular logistic regression then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives</p></li>
+<li><p>However, some of our odds ratios are very high (up to 35!) (specifically for the association between multiple contacts with health services and FPN receipt in lockdown one)</p></li>
+<li><p>If we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives</p></li>
 <li><p>… but we can’t do this (see above)</p></li>
 </ul>
 </section>
@@ -412,11 +418,36 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <h2>Probabilities</h2>
 
 <img data-src="03_figures/merlo_plot.png" class="r-stretch"></section>
+<section id="an-aside" class="slide level2">
+<h2>An aside</h2>
+</section>
+<section id="also-discriminatory-accuracy" class="slide level2">
+<h2>Also discriminatory accuracy</h2>
+<ul>
+<li>This plot felt very familiar when I first saw it</li>
+</ul>
+
+<img data-src="03_figures/merlo_plot.png" class="r-stretch"></section>
+<section id="discriminatory-accuracy" class="slide level2">
+<h2>Discriminatory accuracy</h2>
+<ul>
+<li>It’s the same as this figure!</li>
+</ul>
+
+<img data-src="resources/merlo_figure.png" class="r-stretch"><p>“what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population… in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176”</p>
+<p><span class="citation" data-cites="merloTyrannyAveragesIndiscriminate2017">(<a href="#/thank-you" role="doc-biblioref" onclick="">Merlo et al. 2017</a>)</span></p>
+<ul>
+<li>Merlo was arguing basically that <em>low</em> ORs actually don’t help that much (including ORs of around 10, which TBH I’d say was pretty good going in the social sciences) in distinguishing between people with or without a particular outcome</li>
+</ul>
+</section>
+<section id="back-to-the-main-story" class="slide level2">
+<h2>Back to the main story</h2>
+</section>
 <section id="difference-in-probabilities" class="slide level2">
 <h2>Difference in probabilities</h2>
 
 <img data-src="03_figures/diff_plot.png" class="r-stretch"><ul>
-<li>This is the same data as above but showing the difference probabilities, not the raw probabilities</li>
+<li>This is the same data as the previous plot but showing the difference probabilities, not the raw probabilities</li>
 </ul>
 </section>
 <section id="sample-plot" class="slide level2">
@@ -447,7 +478,12 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <h2>Back to our data</h2>
 <p><img data-src="03_figures/our_dat_plot.png"> - Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!</p>
 <ul>
-<li><p>for our study approximately 92% of people with 3 or more health conditions had an FPN? yeah i think so!</p></li>
+<li>for our study approximately 92% of people with 3 or more health conditions had an FPN? yeah i think so!</li>
+</ul>
+</section>
+<section id="back-to-our-data-1" class="slide level2">
+<h2>Back to our data</h2>
+<ul>
 <li><p>increase in prob from prob of having an fpn with ! 3 or more health conditions</p></li>
 <li><p>so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health</p></li>
 <li><p>compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health</p></li>
@@ -456,8 +492,9 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <section id="we-know-things" class="slide level2">
 <h2>We know things</h2>
 <ul>
-<li><p>But we know that this is not true in the population</p></li>
-<li><p>In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%</p></li>
+<li><p>One helpful thought from framing marginal effects as picking points off this line is that it makes you decide which population you want to describe your results as being ‘marginalized’ over</p></li>
+<li><p>We know that a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly</p></li>
+<li><p>In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%, not 25%</p></li>
 </ul>
 </section>
 <section id="our-plot-again" class="slide level2">
@@ -472,52 +509,60 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <ul>
 <li><p>From just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio</p></li>
 <li><p>If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this</p></li>
+<li><p>Having done all this, I actually don’t think we’ll use this in our paper. Thinking hard about the population that we’re interested in made me wonder…</p></li>
 </ul>
 </section>
 <section id="was-all-this-pointless" class="slide level2">
 <h2>Was all this pointless?</h2>
 <ul>
-<li><p>But also… what’s wrong with an odds ratio of 35?</p></li>
-<li><p>This is an accurate description of our dataset!</p></li>
-<li><p>No need for confidence intervals here?</p></li>
-<li><p>If the problem is that we don’t think a result this extreme would generalize to another study - with close to every person who received an FPN we have no issue of generalizability (we have 100% of the relevant people)</p></li>
+<li><p>… and what’s wrong with an odds ratio of 35 anyway?</p></li>
+<li><p>This is an accurate description of our dataset! (No need for confidence intervals here?)</p></li>
+<li><p>If the problem is that we don’t think a result this extreme would generalize to another ‘sample’ from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people)?</p></li>
 </ul>
 </section>
 <section id="was-all-this-pointless-1" class="slide level2">
 <h2>Was all this pointless?</h2>
 <ul>
-<li><p>Instead of generalizability, we have either a massive issue with transportability/external validity, or we have no issue at all</p></li>
-<li><p>It seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic</p></li>
+<li><p>Instead of generalizability, we have either a massive issue with transportability/external validity <span class="citation" data-cites="degtiarReviewGeneralizabilityTransportability2023">(<a href="#/thank-you" role="doc-biblioref" onclick="">Degtiar and Rose 2023</a>)</span>, or we have no issue at all</p></li>
+<li><p>It seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic (countries were <a href="https://ourworldindata.org/policy-responses-covid">very different in their responses</a>)</p></li>
 <li><p>The results for lockdown one in Scotland don’t even generalize to lockdown two - we show that in our analysis!</p></li>
-<li><p>This might be pretty unique to studying Covid?</p></li>
 </ul>
 </section>
-<section id="confidence-intervals-with-observational-data" class="slide level2">
-<h2>Confidence intervals with observational data</h2>
-<p>” You have the whole population–all the congressmembers, all 50 states, whatever, you run a regression and you get a standard error… But what does that mean, if you have the whole population?</p>
-<p>You can still consider the cases in which the regression will be used for prediction. For example, you have all 50 states, but you might use the model to understand these states in a different year.”</p>
-<p>“We would’ve got the wrong answer if we had tried to get uncertainties for our estimates by”bootstrapping” the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.” <span class="citation" data-cites="gelmanHowYouInterpret2011">(<a href="#/thank-you" role="doc-biblioref" onclick="">Gelman 2011</a>)</span></p>
+<section id="uncertainty-in-observational-data" class="slide level2">
+<h2>Uncertainty in observational data</h2>
+<ul>
+<li><p>This might be pretty unique to studying Covid? Common logic from e.g.&nbsp;political science doesn’t seem to apply:</p></li>
+<li><p>In the context of US congressional elections:</p></li>
+</ul>
+<blockquote>
+<p>We would’ve got the wrong answer if we had tried to get uncertainties for our estimates [of electoral results under different ‘swing’ patterns] by “bootstrapping” the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.</p>
+</blockquote>
+<ul>
+<li>See <span class="citation" data-cites="gelmanHowYouInterpret2011">(<a href="#/thank-you" role="doc-biblioref" onclick="">Gelman 2011</a>)</span></li>
+</ul>
 </section>
-<section id="also-discriminatory-accuracy" class="slide level2">
-<h2>Also discriminatory accuracy</h2>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
 <ul>
-<li>This plot felt very familiar when I first saw it</li>
+<li><p>We had some large Odds Ratios</p></li>
+<li><p>I tried to figure out how we could best interpret them</p></li>
+<li><p>In the end the best way is to say ‘hey we had some large odds ratios’</p></li>
 </ul>
-
-<img data-src="03_figures/merlo_plot.png" class="r-stretch"></section>
-<section id="discriminatory-accuracy" class="slide level2">
-<h2>Discriminatory accuracy</h2>
-<ul>
-<li>It’s the same as this figure!</li>
-</ul>
-<p><img data-src="resources/merlo_figure.png"> “what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population… in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176”</p>
-<p><span class="citation" data-cites="merloTyrannyAveragesIndiscriminate2017">(<a href="#/thank-you" role="doc-biblioref" onclick="">Merlo et al. 2017</a>)</span></p>
 </section>
 <section id="thank-you" class="slide level2 smaller scrollable">
 <h2>Thank you!</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-degtiarReviewGeneralizabilityTransportability2023" class="csl-entry" role="listitem">
+Degtiar, Irina, and Sherri Rose. 2023. <span>“A <span>Review</span> of <span>Generalizability</span> and <span>Transportability</span>.”</span> <em>Annual Review of Statistics and Its Application</em> 10 (1): 501–24. <a href="https://doi.org/10.1146/annurev-statistics-042522-103837">https://doi.org/10.1146/annurev-statistics-042522-103837</a>.
+</div>
+<div id="ref-gailLikelihoodCalculationsMatched1981" class="csl-entry" role="listitem">
+GAIL, MITCHELL H., JAY H. LUBIN, and LAWRENCE V. RUBINSTEIN. 1981. <span>“Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.”</span> <em>Biometrika</em> 68 (3): 703–7. <a href="https://doi.org/10.1093/biomet/68.3.703">https://doi.org/10.1093/biomet/68.3.703</a>.
+</div>
 <div id="ref-gelmanHowYouInterpret2011" class="csl-entry" role="listitem">
 Gelman, King. 2011. <span>“How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?”</span> <em>Statistical Modeling, Causal Inference, and Social Science</em>.
+</div>
+<div id="ref-kuoUnconditionalConditionalLogistic2018" class="csl-entry" role="listitem">
+Kuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. <span>“Unconditional or <span>Conditional Logistic Regression Model</span> for <span>Age-Matched Case</span><span></span><span>Control Data</span>?”</span> <em>Frontiers in Public Health</em> 6.
 </div>
 <div id="ref-merloTyrannyAveragesIndiscriminate2017" class="csl-entry" role="listitem">
 Merlo, Juan, Shai Mulinari, Maria Wemrell, SV Subramanian, and Bo Hedblad. 2017. <span>“The Tyranny of the Averages and the Indiscriminate Use of Risk Factors in Public Health: <span>The</span> Case of Coronary Heart Disease.”</span> <em>SSM - Population Health</em> 3 (December): 684–98. <a href="https://doi.org/10.1016/j.ssmph.2017.08.005">https://doi.org/10.1016/j.ssmph.2017.08.005</a>.
