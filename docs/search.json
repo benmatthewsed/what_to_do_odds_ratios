@@ -74,7 +74,7 @@
     "href": "what_to_do_odds_ratios.html#discriminatory-accuracy",
     "title": "What to do with an odds ratio of 35?",
     "section": "Discriminatory accuracy",
-    "text": "Discriminatory accuracy\n\nIt’s the same as this figure!\n\n\n“what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population… in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176”\n(Merlo et al. 2017)\n\nMerlo was arguing basically that low ORs actually don’t help that much (including ORs of around 10, which TBH I’d say was pretty good going in the social sciences) in distinguishing between people with or without a particular outcome"
+    "text": "Discriminatory accuracy\n\nIt’s the same as this figure!\n\n\n\nwhat we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population… in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176\n\n(Merlo et al. 2017)\n\nMerlo was arguing basically that low ORs actually don’t help that much (including ORs of around 10, which TBH I’d say was pretty good going in the social sciences) in distinguishing between people with or without a particular outcome"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#back-to-the-main-story",
