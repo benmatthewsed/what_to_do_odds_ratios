@@ -367,23 +367,28 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <section id="background" class="slide level2">
 <h2>Background</h2>
 <ul>
-<li><p>This question came from the work of the <a href="https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic">Policing the Pandemic in Scotland</a> project with excellent colleagues <a href="https://www.law.ed.ac.uk/people/dr-victoria-gorton">Dr Vicky Gorton</a> and <a href="https://www.law.ed.ac.uk/people/professor-susan-mcvie">Prof Susan McVie</a></p></li>
+<li><p>This question came from the <a href="https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic">Policing the Pandemic in Scotland</a> project with excellent colleagues <a href="https://www.law.ed.ac.uk/people/dr-victoria-gorton">Dr Vicky Gorton</a> and <a href="https://www.law.ed.ac.uk/people/professor-susan-mcvie">Prof Susan McVie</a></p></li>
 <li><p>Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls</p></li>
-<li><p>We want to know if people with more ‘vulnerability’ (read - service use) are more likely to have received a Covid FPN</p></li>
-<li><p>Because we have a case-control study design (people we know received a FPN and matched controls), we used conditional logistic regression <span class="citation" data-cites="kuo2018">(<a href="#/thank-you" role="doc-biblioref" onclick=""><strong>kuo2018?</strong></a>)</span></p></li>
+<li><p>We want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid FPN</p></li>
+<li><p>Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression <span class="citation" data-cites="kuo2018">(<a href="#/thank-you" role="doc-biblioref" onclick=""><strong>kuo2018?</strong></a>)</span></p></li>
 <li><p>We had three controls for each case</p></li>
-<li><p>(Although some people say this is the wrong thing because of course they do)</p></li>
+<li><p>(Although some people say this is the wrong method because of course they do)</p></li>
 </ul>
 </section>
-<section id="stats" class="slide level2">
-<h2>Stats</h2>
+<section id="case-controls-and-conditional-logistic-regression" class="slide level2">
+<h2>Case-controls and conditional logistic regression</h2>
 <ul>
-<li><p>One downside of the case-control design (and conditional logistic regression as a method) is that the Intercept in your regression model is basically meaningless</p></li>
-<li><p>The interecept reflects the prevalence of your outcome in your data for your reference category</p></li>
+<li><p>One downside of the case-control design (and conditional logistic regression as a method) is that the intercept in your regression model is basically meaningless</p></li>
+<li><p>The intercept reflects the prevalence of your outcome in your data for your reference category</p></li>
 <li><p>With a case-control design, the prevalence of the outcome is set by the study design - with three control for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!</p></li>
-<li><p>So we (as is recommended) default to using Odds Ratios</p></li>
+</ul>
+</section>
+<section id="case-controls-and-conditional-logistic-regression-1" class="slide level2">
+<h2>Case-controls and conditional logistic regression</h2>
+<ul>
+<li><p>So we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN</p></li>
 <li><p>However, some of our odds ratios are very high (up to 35!)</p></li>
-<li><p>If we were using regular logistic regression then we could happily construct marginal effects of our key variables, present them as percentage changes and get on with our lives</p></li>
+<li><p>If we were using regular logistic regression then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives</p></li>
 <li><p>… but we can’t do this (see above)</p></li>
 </ul>
 </section>
@@ -395,16 +400,16 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 </ul>
 </section>
 <section id="what-is-a-marginal-effect" class="slide level2">
-<h2>What is a marginal effect?</h2>
+<h2>What <em>is</em> a marginal effect?</h2>
 <ul>
 <li><p>What we want to do is describe our Odds Ratios as differences in probabilities</p></li>
 <li><p>What we can do is describe <em>all</em> the differences in probabilities that are consistent with a given Odds Ratio</p></li>
-<li><p>This is just maths - for a particular odds ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities</p></li>
+<li><p>This is just maths - for a given odds ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities between comparison and reference categories</p></li>
 <li><p>So if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe</p></li>
 </ul>
 </section>
-<section id="figure" class="slide level2">
-<h2>figure</h2>
+<section id="probabilities" class="slide level2">
+<h2>Probabilities</h2>
 
 <img data-src="03_figures/merlo_plot.png" class="r-stretch"></section>
 <section id="difference-in-probabilities" class="slide level2">
@@ -430,9 +435,8 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <h2>Marginal effects at the mean</h2>
 
 <img data-src="03_figures/mem_plot.png" class="r-stretch"></section>
-<section>
-<section id="marginal-effects-at-representative-values" class="title-slide slide level1 center">
-<h1>Marginal effects at representative values</h1>
+<section id="marginal-effects-at-representative-values" class="slide level2">
+<h2>Marginal effects at representative values</h2>
 
 <img data-src="03_figures/mer_plot.png" class="r-stretch"></section>
 <section id="average-marginal-effects" class="slide level2">
@@ -463,30 +467,67 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <li>This is an increase in probabilities of closer to 1.5 percentage points not 66</li>
 </ul>
 </section>
+<section id="what-have-we-learned" class="slide level2">
+<h2>What have we learned</h2>
+<ul>
+<li><p>From just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio</p></li>
+<li><p>If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this</p></li>
+</ul>
+</section>
 <section id="was-all-this-pointless" class="slide level2">
 <h2>Was all this pointless?</h2>
 <ul>
 <li><p>But also… what’s wrong with an odds ratio of 35?</p></li>
-<li><p>We have no issue of generalizability - we have 100% of the relevant people</p></li>
-<li><p>We also have either a massive issue with transportability/external validity, or we have no issue at all - it seems nonsensical to suggest that these results would generalize to another country or another pandemic. The results for lockdown one in Scotland don’t even generalize to lockdown two - that’s in our paper!</p></li>
+<li><p>This is an accurate description of our dataset!</p></li>
+<li><p>No need for confidence intervals here?</p></li>
+<li><p>If the problem is that we don’t think a result this extreme would generalize to another study - with close to every person who received an FPN we have no issue of generalizability (we have 100% of the relevant people)</p></li>
 </ul>
+</section>
+<section id="was-all-this-pointless-1" class="slide level2">
+<h2>Was all this pointless?</h2>
+<ul>
+<li><p>Instead of generalizability, we have either a massive issue with transportability/external validity, or we have no issue at all</p></li>
+<li><p>It seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic</p></li>
+<li><p>The results for lockdown one in Scotland don’t even generalize to lockdown two - we show that in our analysis!</p></li>
+<li><p>This might be pretty unique to studying Covid?</p></li>
+</ul>
+</section>
+<section id="confidence-intervals-with-observational-data" class="slide level2">
+<h2>Confidence intervals with observational data</h2>
+<p>” You have the whole population–all the congressmembers, all 50 states, whatever, you run a regression and you get a standard error… But what does that mean, if you have the whole population?</p>
+<p>You can still consider the cases in which the regression will be used for prediction. For example, you have all 50 states, but you might use the model to understand these states in a different year.”</p>
+<p>“We would’ve got the wrong answer if we had tried to get uncertainties for our estimates by”bootstrapping” the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.” <span class="citation" data-cites="gelmanHowYouInterpret2011">(<a href="#/thank-you" role="doc-biblioref" onclick="">Gelman 2011</a>)</span></p>
 </section>
 <section id="also-discriminatory-accuracy" class="slide level2">
 <h2>Also discriminatory accuracy</h2>
 <ul>
-<li>Hopefully I get chance to talk about this too</li>
+<li>This plot felt very familiar when I first saw it</li>
 </ul>
+
+<img data-src="03_figures/merlo_plot.png" class="r-stretch"></section>
+<section id="discriminatory-accuracy" class="slide level2">
+<h2>Discriminatory accuracy</h2>
+<ul>
+<li>It’s the same as this figure!</li>
+</ul>
+<p><img data-src="resources/merlo_figure.png"> “what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population… in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176”</p>
+<p><span class="citation" data-cites="merloTyrannyAveragesIndiscriminate2017">(<a href="#/thank-you" role="doc-biblioref" onclick="">Merlo et al. 2017</a>)</span></p>
 </section>
 <section id="thank-you" class="slide level2 smaller scrollable">
 <h2>Thank you!</h2>
-<div id="refs" role="list">
-
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gelmanHowYouInterpret2011" class="csl-entry" role="listitem">
+Gelman, King. 2011. <span>“How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?”</span> <em>Statistical Modeling, Causal Inference, and Social Science</em>.
+</div>
+<div id="ref-merloTyrannyAveragesIndiscriminate2017" class="csl-entry" role="listitem">
+Merlo, Juan, Shai Mulinari, Maria Wemrell, SV Subramanian, and Bo Hedblad. 2017. <span>“The Tyranny of the Averages and the Indiscriminate Use of Risk Factors in Public Health: <span>The</span> Case of Coronary Heart Disease.”</span> <em>SSM - Population Health</em> 3 (December): 684–98. <a href="https://doi.org/10.1016/j.ssmph.2017.08.005">https://doi.org/10.1016/j.ssmph.2017.08.005</a>.
+</div>
 </div>
 
 <div class="footer footer-default">
 
 </div>
-</section></section>
+</section>
     </div>
   </div>
 

@@ -14,31 +14,33 @@ editor: visual
 
 ## Background
 
--   This question came from the work of the [Policing the Pandemic in Scotland](https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic) project with excellent colleagues [Dr Vicky Gorton](https://www.law.ed.ac.uk/people/dr-victoria-gorton) and [Prof Susan McVie](https://www.law.ed.ac.uk/people/professor-susan-mcvie)
+-   This question came from the [Policing the Pandemic in Scotland](https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic) project with excellent colleagues [Dr Vicky Gorton](https://www.law.ed.ac.uk/people/dr-victoria-gorton) and [Prof Susan McVie](https://www.law.ed.ac.uk/people/professor-susan-mcvie)
 
 -   Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls
 
--   We want to know if people with more 'vulnerability' (read - service use) are more likely to have received a Covid FPN
+-   We want to know if people with more 'vulnerability' (read - health service use) are more likely than others to have received a Covid FPN
 
--   Because we have a case-control study design (people we know received a FPN and matched controls), we used conditional logistic regression [@kuo2018]
+-   Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression [@kuo2018]
 
 -   We had three controls for each case
 
--   (Although some people say this is the wrong thing because of course they do)
+-   (Although some people say this is the wrong method because of course they do)
 
-## Stats
+## Case-controls and conditional logistic regression
 
--   One downside of the case-control design (and conditional logistic regression as a method) is that the Intercept in your regression model is basically meaningless
+-   One downside of the case-control design (and conditional logistic regression as a method) is that the intercept in your regression model is basically meaningless
 
--   The interecept reflects the prevalence of your outcome in your data for your reference category
+-   The intercept reflects the prevalence of your outcome in your data for your reference category
 
 -   With a case-control design, the prevalence of the outcome is set by the study design - with three control for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!
 
--   So we (as is recommended) default to using Odds Ratios
+## Case-controls and conditional logistic regression
+
+-   So we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN
 
 -   However, some of our odds ratios are very high (up to 35!)
 
--   If we were using regular logistic regression then we could happily construct marginal effects of our key variables, present them as percentage changes and get on with our lives
+-   If we were using regular logistic regression then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives
 
 -   ... but we can't do this (see above)
 
@@ -48,17 +50,17 @@ editor: visual
 
 -   It's only loosely related to our actual project!
 
-## What is a marginal effect?
+## What *is* a marginal effect?
 
 -   What we want to do is describe our Odds Ratios as differences in probabilities
 
 -   What we can do is describe *all* the differences in probabilities that are consistent with a given Odds Ratio
 
--   This is just maths - for a particular odds ratio and a fixed 'reference' probability, we can calculate the difference in probabilities
+-   This is just maths - for a given odds ratio and a fixed 'reference' probability, we can calculate the difference in probabilities between comparison and reference categories
 
 -   So if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe
 
-## figure
+## Probabilities
 
 ![](03_figures/merlo_plot.png)
 
@@ -72,68 +74,97 @@ editor: visual
 
 ![](03_figures/sample_plot.png)
 
-
 ## Marginal effects
 
-- Every marginal effect for an Odds Ratio of 35 is on this line
+-   Every marginal effect for an Odds Ratio of 35 is on this line
 
-- This line represents the Universe of marginal effects for an odds ratio of 35
+-   This line represents the Universe of marginal effects for an odds ratio of 35
 
-- Aside: This is also a nice way of thinking about different flavours of marginal effect
+-   Aside: This is also a nice way of thinking about different flavours of marginal effect
 
 ## Marginal effects at the mean
 
 ![](03_figures/mem_plot.png)
 
-# Marginal effects at representative values
-
+## Marginal effects at representative values
 
 ![](03_figures/mer_plot.png)
 
 ## Average marginal effects
 
-
 ![](03_figures/ame_plot.png)
 
 ## Back to our data
 
-![](03_figures/our_dat_plot.png)
-- Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
+![](03_figures/our_dat_plot.png) - Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
 
+-   for our study approximately 92% of people with 3 or more health conditions had an FPN? yeah i think so!
 
-- for our study approximately 92% of people with 3 or more health conditions
- had an FPN? yeah i think so!
+-   increase in prob from prob of having an fpn with ! 3 or more health conditions
 
-- increase in prob from prob of having an fpn with ! 3 or more health conditions
+-   so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health
 
-- so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health
-
-- compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health
-
+-   compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health
 
 ## We know things
 
-- But we know that this is not true in the population
+-   But we know that this is not true in the population
 
-- In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%
+-   In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%
 
 ## Our plot again
 
 ![](03_figures/our_dat_plot2.png)
 
-- This is an increase in probabilities of closer to 1.5 percentage points not 66
+-   This is an increase in probabilities of closer to 1.5 percentage points not 66
+
+## What have we learned
+
+-   From just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio
+
+-   If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn't give you this
 
 ## Was all this pointless?
 
-- But also... what's wrong with an odds ratio of 35?
+-   But also... what's wrong with an odds ratio of 35?
 
-- We have no issue of generalizability - we have 100% of the relevant people
+-   This is an accurate description of our dataset!
 
-- We also have either a massive issue with transportability/external validity, or we have no issue at all - it seems nonsensical to suggest that these results would generalize to another country or another pandemic. The results for lockdown one in Scotland don't even generalize to lockdown two - that's in our paper!
+-   No need for confidence intervals here?
+
+-   If the problem is that we don't think a result this extreme would generalize to another study - with close to every person who received an FPN we have no issue of generalizability (we have 100% of the relevant people)
+
+## Was all this pointless?
+
+-   Instead of generalizability, we have either a massive issue with transportability/external validity, or we have no issue at all
+
+-   It seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic
+
+-   The results for lockdown one in Scotland don't even generalize to lockdown two - we show that in our analysis!
+
+-   This might be pretty unique to studying Covid?
+
+## Confidence intervals with observational data
+
+" You have the whole population--all the congressmembers, all 50 states, whatever, you run a regression and you get a standard error... But what does that mean, if you have the whole population?
+
+You can still consider the cases in which the regression will be used for prediction. For example, you have all 50 states, but you might use the model to understand these states in a different year."
+
+"We would've got the wrong answer if we had tried to get uncertainties for our estimates by "bootstrapping" the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435." [@gelmanHowYouInterpret2011]
 
 ## Also discriminatory accuracy
 
-- Hopefully I get chance to talk about this too
+-   This plot felt very familiar when I first saw it
+
+![](03_figures/merlo_plot.png)
+
+## Discriminatory accuracy
+
+-   It's the same as this figure!
+
+![](resources/merlo_figure.png) "what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population... in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176"
+
+[@merloTyrannyAveragesIndiscriminate2017]
 
 ## Thank you!
 
