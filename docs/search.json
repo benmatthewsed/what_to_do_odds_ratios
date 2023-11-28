@@ -1,0 +1,121 @@
+[
+  {
+    "objectID": "what_to_do_odds_ratios.html#outline",
+    "href": "what_to_do_odds_ratios.html#outline",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Outline",
+    "text": "Outline\n\nThis is extremely work-in-progress!\nAny and all comments much appreciated"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#background",
+    "href": "what_to_do_odds_ratios.html#background",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Background",
+    "text": "Background\n\nThis question came from the work of the Policing the Pandemic in Scotland project with excellent colleagues Dr Vicky Gorton and Prof Susan McVie\nVicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls\nWe want to know if people with more ‘vulnerability’ (read - service use) are more likely to have received a Covid FPN\nBecause we have a case-control study design (people we know received a FPN and matched controls), we used conditional logistic regression (kuo2018?)\nWe had three controls for each case\n(Although some people say this is the wrong thing because of course they do)"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#stats",
+    "href": "what_to_do_odds_ratios.html#stats",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Stats",
+    "text": "Stats\n\nOne downside of the case-control design (and conditional logistic regression as a method) is that the Intercept in your regression model is basically meaningless\nThe interecept reflects the prevalence of your outcome in your data for your reference category\nWith a case-control design, the prevalence of the outcome is set by the study design - with three control for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!\nSo we (as is recommended) default to using Odds Ratios\nHowever, some of our odds ratios are very high (up to 35!)\nIf we were using regular logistic regression then we could happily construct marginal effects of our key variables, present them as percentage changes and get on with our lives\n… but we can’t do this (see above)"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#so-what-now",
+    "href": "what_to_do_odds_ratios.html#so-what-now",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "So what now?",
+    "text": "So what now?\n\nSo we’ve been puzzling about what we can do. What follows is the result of going down this rabbit-hole\nIt’s only loosely related to our actual project!"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#what-is-a-marginal-effect",
+    "href": "what_to_do_odds_ratios.html#what-is-a-marginal-effect",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "What is a marginal effect?",
+    "text": "What is a marginal effect?\n\nWhat we want to do is describe our Odds Ratios as differences in probabilities\nWhat we can do is describe all the differences in probabilities that are consistent with a given Odds Ratio\nThis is just maths - for a particular odds ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities\nSo if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#figure",
+    "href": "what_to_do_odds_ratios.html#figure",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "figure",
+    "text": "figure"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#difference-in-probabilities",
+    "href": "what_to_do_odds_ratios.html#difference-in-probabilities",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Difference in probabilities",
+    "text": "Difference in probabilities\n\n\nThis is the same data as above but showing the difference probabilities, not the raw probabilities"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#sample-plot",
+    "href": "what_to_do_odds_ratios.html#sample-plot",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Sample plot",
+    "text": "Sample plot"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#marginal-effects",
+    "href": "what_to_do_odds_ratios.html#marginal-effects",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Marginal effects",
+    "text": "Marginal effects\n\nEvery marginal effect for an Odds Ratio of 35 is on this line\nThis line represents the Universe of marginal effects for an odds ratio of 35\nAside: This is also a nice way of thinking about different flavours of marginal effect"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#marginal-effects-at-the-mean",
+    "href": "what_to_do_odds_ratios.html#marginal-effects-at-the-mean",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Marginal effects at the mean",
+    "text": "Marginal effects at the mean"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#average-marginal-effects",
+    "href": "what_to_do_odds_ratios.html#average-marginal-effects",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Average marginal effects",
+    "text": "Average marginal effects"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#back-to-our-data",
+    "href": "what_to_do_odds_ratios.html#back-to-our-data",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Back to our data",
+    "text": "Back to our data\n - Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!\n\nfor our study approximately 92% of people with 3 or more health conditions had an FPN? yeah i think so!\nincrease in prob from prob of having an fpn with ! 3 or more health conditions\nso n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health\ncompared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#we-know-things",
+    "href": "what_to_do_odds_ratios.html#we-know-things",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "We know things",
+    "text": "We know things\n\nBut we know that this is not true in the population\nIn fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#our-plot-again",
+    "href": "what_to_do_odds_ratios.html#our-plot-again",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Our plot again",
+    "text": "Our plot again\n\n\nThis is an increase in probabilities of closer to 1.5 percentage points not 66"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#was-all-this-pointless",
+    "href": "what_to_do_odds_ratios.html#was-all-this-pointless",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Was all this pointless?",
+    "text": "Was all this pointless?\n\nBut also… what’s wrong with an odds ratio of 35?\nWe have no issue of generalizability - we have 100% of the relevant people\nWe also have either a massive issue with transportability/external validity, or we have no issue at all - it seems nonsensical to suggest that these results would generalize to another country or another pandemic. The results for lockdown one in Scotland don’t even generalize to lockdown two - that’s in our paper!"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#also-discriminatory-accuracy",
+    "href": "what_to_do_odds_ratios.html#also-discriminatory-accuracy",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Also discriminatory accuracy",
+    "text": "Also discriminatory accuracy\n\nHopefully I get chance to talk about this too"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#thank-you",
+    "href": "what_to_do_odds_ratios.html#thank-you",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Thank you!",
+    "text": "Thank you!"
+  }
+]
