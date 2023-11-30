@@ -208,10 +208,7 @@ dat3 |>
                                 filter(log_or == 35),
                               aes(label = log_or)) +
   geom_point(data = mem_dat,
-             size = 2) +
-  geom_segment(data = mem_dat,
-               aes(xend = p_ref, yend = 0),
-               linetype = "dashed") +
+             size = 3, colour = "red") +
   theme_minimal() +
   labs(x = "Probability in reference group",
        y = "Difference in probability in comparison group",
@@ -244,10 +241,7 @@ dat3 |>
                                 filter(log_or == 35),
                               aes(label = log_or)) +
   geom_point(data = mer_dat,
-             size = 2) +
-  geom_segment(data = mer_dat,
-               aes(xend = p_ref, yend = 0),
-               linetype = "dashed") +
+             size = 3, colour = "red") +
   theme_minimal() +
   labs(x = "Probability in reference group",
        y = "Difference in probability in comparison group",
@@ -269,11 +263,25 @@ ame_dat <-
   filter(log_or == 35) |> 
   filter(ref %in% round(rnorm(100, -2, 1), 2))
 
+
+ame_dat |> 
+  summarise(p_diff = mean(p_diff)) |> 
+  mutate(p_ref = 0.007)
+
+ame_summary <- 
+dat3 |> 
+  mutate(p_diff = p_or - p_ref) |> 
+  filter(round(p_diff, 3) == 0.584,
+         log_or == 35)
+
+
+
 ame_plot <- 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
-  ggplot(aes(x = p_ref, y = p_diff, group = log_or, colour = log_or)) +
-  geom_line(alpha = 0.1) +
+  ggplot(aes(x = p_ref, y = p_diff, colour = log_or)) +
+  geom_line(aes(group = log_or),
+            alpha = 0.1) +
   geomtextpath::geom_textline(data = dat3 |> 
                                 mutate(p_diff = p_or - p_ref) |> 
                                 filter(log_or == 35),
@@ -281,10 +289,7 @@ dat3 |>
   geom_point(data = ame_dat,
              size = 2,
              alpha = 0.5) +
-  geom_point(data = ame_dat |> 
-               summarise(p_ref = mean(p_ref),
-                         p_diff = mean(p_diff),
-                         log_or = mean(log_or)),
+  geom_point(data = ame_summary,
              size = 3, colour = "red") +
   theme_minimal() +
   labs(x = "Probability in reference group",
