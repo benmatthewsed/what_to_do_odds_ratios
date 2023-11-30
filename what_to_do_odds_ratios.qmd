@@ -1,12 +1,14 @@
 ---
 title: "What to do with an odds ratio of 35?"
+title-slide-attributes:
+    data-background-image: "https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=3250&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 bibliography: policing_the_pandemic.bib
 author: "Dr. Ben Matthews | University of Stirling"
-date: "2023-06-28"
 format:
   revealjs:
     smaller: true
     scrollable: true
+    theme: default
 editor: visual
 ---
 
@@ -25,7 +27,7 @@ editor: visual
 
 -   Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression [@gailLikelihoodCalculationsMatched1981]
 -   (Although some people say this is the wrong method because of course they do [@kuoUnconditionalConditionalLogistic2018])
--   We had **three** controls for each case
+-   We had **three** controls for each case, and around 18,000 FPNs with a match rate around 85%
 
 ## Case-controls and conditional logistic regression
 
@@ -63,39 +65,44 @@ editor: visual
 
 ## Probabilities
 
-![](03_figures/merlo_plot.png)
+::: columns
+::: {.column width="70%"}
+![](03_figures/merlo_plot.png){fig-alt="Insert alt text."}
+:::
 
-## An aside
+::: {.column width="30%"}
+:::
+:::
 
-## Also discriminatory accuracy
 
--   This plot felt very familiar when I first saw it
 
-![](03_figures/merlo_plot.png)
-
-## Discriminatory accuracy
-
--   It's the same as this figure!
-
-![](resources/merlo_figure.jpg)
-
-> what we normally consider as a strong association between a risk factor and a disease (e.g., an OR for a disease of 10), is related to a somewhat low capacity of the risk factor to discriminate cases and non-cases of disease in the population... in order to obtain a suitable discriminatory accuracy (DA) of, for example, a true positive fraction (TPF) = 90% and a false positive fraction (FPF) = 5%, we would need an OR = 176
-
-[@merloTyrannyAveragesIndiscriminate2017]
-
--   Merlo was arguing basically that **low** ORs actually don't help that much (including ORs of around 10, which TBH I'd say was pretty good going in the social sciences) in distinguishing between people with or without a particular outcome
-
-## Back to the main story
 
 ## Difference in probabilities
 
-![](03_figures/diff_plot.png)
+::: columns
+::: {.column width="70%"}
+![](03_figures/diff_plot.png){fig-alt="Insert alt text."}
+:::
 
--   This is the same data as the previous plot but showing the difference probabilities, not the raw probabilities
+::: {.column width="30%"}
+_This is the same data as the previous plot but showing the difference probabilities, not the raw probabilities_
+:::
+:::
+ 
 
-## Sample plot
+## Example plot
 
-![](03_figures/sample_plot.png)
+
+::: columns
+::: {.column width="70%"}
+![](03_figures/sample_plot.png){fig-alt="Insert alt text."}
+:::
+
+::: {.column width="30%"}
+:::
+:::
+
+
 
 ## The Universe of marginal effects
 
@@ -103,23 +110,60 @@ editor: visual
 
 -   Aside: This is also a nice way of thinking about different flavours of marginal effect
 
-## Marginal effects at the mean
+## MEMs
+::: columns
+::: {.column width="70%"}
+![](03_figures/mem_plot.png){fig-alt="Insert alt text."}
+:::
 
-![](03_figures/mem_plot.png)
+::: {.column width="30%"}
+_For Marginal Effects at the Mean (MEMs) you in effect pick a single point on this curve_
+:::
+:::
 
-## Marginal effects at representative values
 
-![](03_figures/mer_plot.png)
 
-## Average marginal effects
 
-![](03_figures/ame_plot.png)
+## MERs
+
+::: columns
+::: {.column width="70%"}
+![](03_figures/mer_plot.png){fig-alt="Insert alt text."}
+:::
+
+::: {.column width="30%"}
+_For Marginal Effects at Representative values (MERs) you are picking a few point on this curve_
+:::
+:::
+
+
+## AMEs
+
+::: columns
+::: {.column width="70%"}
+![](03_figures/ame_plot.png){fig-alt="Insert alt text."}
+:::
+
+::: {.column width="30%"}
+_For Average Marginal Effects you get a point on this curve for every person/row in your dataset and then you take the average_
+:::
+:::
+
 
 ## Back to our data
 
-![](03_figures/our_dat_plot.png) - Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
+::: columns
+::: {.column width="70%"}
+![](03_figures/our_dat_plot.png) fig-alt="Insert alt text."}
+:::
 
+::: {.column width="30%"}
+- Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
 -  Given that we know the refrence probability is around 25% from the study design, for our study approximately 92% of people who had a FPN during lockdown one had 3 or more health conditions?
+:::
+:::
+
+
 
 ## Back to our data
 
@@ -135,13 +179,23 @@ editor: visual
 
 -   We know that a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly
 
--   In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.0044%, not 25%
+-   In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.001% [@mcvieThirdDataReport2021], not 25%
 
 ## Our plot again
 
-![](03_figures/our_dat_plot2.png)
+::: columns
+::: {.column width="70%"}
+![](03_figures/our_dat_plot2.png) fig-alt="Insert alt text."}
+:::
 
+::: {.column width="30%"}
 -   This is an increase in probabilities of closer to 1.5 percentage points not 66
+
+- But now I've done this I'm not sure it's told us anything that useful?
+:::
+:::
+
+
 
 ## What did I learn?
 
@@ -149,9 +203,11 @@ editor: visual
 
 -   If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn't give you this
 
--   Having done all this, I actually don't think we'll use this in our paper. Thinking hard about the population that we're interested in made me wonder...
+- Not AMEs though, and I'm not sure about confidence intervals
 
 ## Was all this pointless?
+
+-   Having done all this, I actually don't think we'll use this in our paper. Thinking hard about the population that we're interested in made me wonder..
 
 -   ... and what's wrong with an odds ratio of 35 anyway?
 
@@ -161,28 +217,32 @@ editor: visual
 
 ## Was all this pointless?
 
--   Instead of generalizability, we have either a massive issue with transportability/external validity [@degtiarReviewGeneralizabilityTransportability2023], or we have no issue at all
+-   Instead of generalizability, I think we have either a massive issue with transportability/external validity [@degtiarReviewGeneralizabilityTransportability2023], or we have no issue at all
 
 -   It seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic (countries were [very different in their responses](https://ourworldindata.org/policy-responses-covid))
 
 -   The results for lockdown one in Scotland don't even generalize to lockdown two - we show that in our analysis!
 
+
+
 ## Uncertainty in observational data
 
--   This might be pretty unique to studying Covid? Common logic from e.g. political science doesn't seem to apply:
+-   This might be pretty unique to studying Covid? 
+
+- And does this means that we don't really need confidence intervals here? Common logic from other contexts doesn't seem to apply:
 
 -   In the context of US congressional elections:
 
 > We would've got the wrong answer if we had tried to get uncertainties for our estimates \[of electoral results under different 'swing' patterns\] by "bootstrapping" the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.
 
--   See [@gelmanHowYouInterpret2011]
+- See [@gelmanHowYouInterpret2011]
 
 
 ## Uncertainty in observational data
 
-- Maybe we care about uncertainty in our inferences based on things like Approximate Maximum Influence Perturbation [@broderickAutomaticFiniteSampleRobustness2023]? But even they frame their measure as being about differences between sample and population
+- Maybe we care about uncertainty in our inferences more in the sense that a small number of cases may be really affecting our results (like Approximate Maximum Influence Perturbation [@broderickAutomaticFiniteSampleRobustness2023])? But even these kinds of measures are framed as being about differences between sample and population
 
-- Perhaps we should be worried about influence of non-matches? More than 10% of cases didn't match so maybe this is worth considering
+- Perhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn't match so maybe this is worth considering
 
 - Not clear what we should do about that though!
 
@@ -192,9 +252,9 @@ editor: visual
 
 -   I tried to figure out how we could best interpret them
 
--   In the end the best way is to say 'hey we had some large odds ratios'
+-   In the end the best way was to say 'hey we had some large Odds Ratios'
 
-## Thank you!
+## Thank you! {.smaller}
 
 ::: {#refs}
 :::
