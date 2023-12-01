@@ -11,70 +11,70 @@
     "href": "what_to_do_odds_ratios.html#background",
     "title": "What to do with an odds ratio of 35?",
     "section": "Background",
-    "text": "Background\n\nThis question came from the Policing the Pandemic in Scotland project with excellent colleagues Dr Vicky Gorton and Prof Susan McVie\nVicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls\nWe want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid FPN"
+    "text": "Background\n\nThis question came from the Policing the Pandemic in Scotland project with excellent colleagues Dr Vicky Gorton and Prof Susan McVie\nWe linked data on all (well, most) fines received for breaching the Covid regulations in Scotland between 27 March 2020 to 31 May 2021 with information on recipients’ health and (some) social circumstances\nWe also have information on a comparison group of matched controls (matched by age, sex, Local Authority and SIMD decile)\nWe want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid fine (FPN)"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression",
     "href": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression",
     "title": "What to do with an odds ratio of 35?",
     "section": "Case-controls and conditional logistic regression",
-    "text": "Case-controls and conditional logistic regression\n\nBecause we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression (Gail, Lubin, and Rubinstein 1981)\n(Although some people say this is the wrong method because of course they do (Kuo, Duan, and Grady 2018))\nWe had three controls for each case, and around 18,000 FPNs with a match rate around 85%"
+    "text": "Case-controls and conditional logistic regression\n\nBecause we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression (Gail, Lubin, and Rubinstein 1981)\nAlthough some people say this is the wrong method because of course they do (Kuo, Duan, and Grady 2018)\nWe had three controls for each case, and around 18,000 FPNs with a match rate around 85%"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression-1",
     "href": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression-1",
     "title": "What to do with an odds ratio of 35?",
     "section": "Case-controls and conditional logistic regression",
-    "text": "Case-controls and conditional logistic regression\n\nOne downside of the case-control design (and associated methods) is that the intercept in your regression model is basically meaningless (clogit in Stata doesn’t even report it)\nThis is because the model’s intercept reflects the prevalence of your outcome in your data for your reference category\nWith a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!"
+    "text": "Case-controls and conditional logistic regression\n\nOne downside of the case-control design (and associated methods) is that the intercept in your regression model is basically meaningless (clogit in Stata doesn’t even report it)\nThis is because a model’s intercept reflects the prevalence of your outcome in your data for your reference category\nWith a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%.\nThis tells us nothing useful about Covid FPNs!"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression-2",
     "href": "what_to_do_odds_ratios.html#case-controls-and-conditional-logistic-regression-2",
     "title": "What to do with an odds ratio of 35?",
     "section": "Case-controls and conditional logistic regression",
-    "text": "Case-controls and conditional logistic regression\n\nSo we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN\nHowever, some of our odds ratios are very high (up to 35!) (specifically for the association between multiple contacts with health services and FPN receipt in lockdown one)\nIf we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives\n… but we can’t do this"
+    "text": "Case-controls and conditional logistic regression\n\nSo we default to using odds ratios to understand the association between service use and receiving a FPN\nHowever, some of our odds ratios are very high (up to 35!)\nSpecifically this was for the association between multiple contacts with health services and FPN receipt during Lockdown One\nIf we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables and be done with it\n… but we can’t do this. So we’ve been puzzling about what we can do."
   },
   {
     "objectID": "what_to_do_odds_ratios.html#so-what-now",
     "href": "what_to_do_odds_ratios.html#so-what-now",
     "title": "What to do with an odds ratio of 35?",
     "section": "So what now?",
-    "text": "So what now?\n\nSo we’ve been puzzling about what we can do. What follows is the result of going down this rabbit-hole\nWhat follows is only loosely related to our actual project!"
+    "text": "So what now?\n\nWhat follows is the result of going down this rabbit-hole\n(Turns out, there are lots of rabbit-holes when it comes to odds-ratios! (Greenland 2021))"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#describe-em-all",
-    "href": "what_to_do_odds_ratios.html#describe-em-all",
+    "objectID": "what_to_do_odds_ratios.html#a-universe-of-marginal-effects",
+    "href": "what_to_do_odds_ratios.html#a-universe-of-marginal-effects",
     "title": "What to do with an odds ratio of 35?",
-    "section": "Describe ’em all",
-    "text": "Describe ’em all\n\nWhat we want to do is describe our Odds Ratios as differences in probabilities\nWhat we can do is describe all the differences in probabilities that are consistent with a given Odds Ratio\nThis is just maths - for a given Odds Ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities between comparison and reference categories\nSo if we just take a bunch of reference probabilities and Odds Ratios we can calculate the difference in probabilities that the odds ratios describe"
+    "section": "A universe of marginal effects",
+    "text": "A universe of marginal effects\n\nWhat we want to do is describe our odds ratios as differences in probabilities\nThe problem is that every odds ratio is compatible with a whole bunch of marginal effects\nOne thing we can do is describe all the differences in probabilities that are consistent with a given odds ratio (sort of like visualising the line of solutions in an age-period-cohort model (Fosse and Winship 2019))\nThis is just maths - for a given odds ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities between comparison and reference categories\nSo if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#probabilities",
-    "href": "what_to_do_odds_ratios.html#probabilities",
+    "objectID": "what_to_do_odds_ratios.html#visualizing-odds-ratios",
+    "href": "what_to_do_odds_ratios.html#visualizing-odds-ratios",
     "title": "What to do with an odds ratio of 35?",
-    "section": "Probabilities",
-    "text": "Probabilities"
+    "section": "Visualizing odds ratios",
+    "text": "Visualizing odds ratios"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#difference-in-probabilities",
-    "href": "what_to_do_odds_ratios.html#difference-in-probabilities",
+    "objectID": "what_to_do_odds_ratios.html#visualizing-δ-in-odds-ratios",
+    "href": "what_to_do_odds_ratios.html#visualizing-δ-in-odds-ratios",
     "title": "What to do with an odds ratio of 35?",
-    "section": "Difference in probabilities",
-    "text": "Difference in probabilities\n\n\n\n\nThis is the same data as the previous plot but showing the difference probabilities, not the raw probabilities"
+    "section": "Visualizing Δ in odds ratios",
+    "text": "Visualizing Δ in odds ratios\n\n\n\n\nThis is the same data as the previous plot but showing the difference probabilities, not the raw probabilities"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#example-plot",
-    "href": "what_to_do_odds_ratios.html#example-plot",
+    "objectID": "what_to_do_odds_ratios.html#visualizing-an-odds-ratio-of-35",
+    "href": "what_to_do_odds_ratios.html#visualizing-an-odds-ratio-of-35",
     "title": "What to do with an odds ratio of 35?",
-    "section": "Example plot",
-    "text": "Example plot"
+    "section": "Visualizing an odds ratio of 35",
+    "text": "Visualizing an odds ratio of 35"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#the-universe-of-marginal-effects",
     "href": "what_to_do_odds_ratios.html#the-universe-of-marginal-effects",
     "title": "What to do with an odds ratio of 35?",
     "section": "The Universe of marginal effects",
-    "text": "The Universe of marginal effects\n\nEvery marginal effect for an Odds Ratio of 35 is on this line\nAside: This is also a nice way of thinking about different flavours of marginal effect"
+    "text": "The Universe of marginal effects\n\nEvery marginal effect for an odds ratio of 35 is on this line\nAside: This is also a nice way of thinking about different flavours of marginal effect"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#mems",
@@ -102,42 +102,35 @@
     "href": "what_to_do_odds_ratios.html#back-to-our-data",
     "title": "What to do with an odds ratio of 35?",
     "section": "Back to our data",
-    "text": "Back to our data\n\n\n fig-alt=“Insert alt text.”}\n\n\nVery approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!\nGiven that we know the refrence probability is around 25% from the study design, for our study approximately 92% of people who had a FPN during lockdown one had 3 or more health conditions?"
-  },
-  {
-    "objectID": "what_to_do_odds_ratios.html#back-to-our-data-1",
-    "href": "what_to_do_odds_ratios.html#back-to-our-data-1",
-    "title": "What to do with an odds ratio of 35?",
-    "section": "Back to our data",
-    "text": "Back to our data\n\nincrease in prob from prob of having an fpn with ! 3 or more health conditions\nso n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health\ncompared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health"
+    "text": "Back to our data\n\n\n\n\n\nVery approximately, our odds ratio of 35 implies a difference in probabilities in receiving a FPN between people who had 3 or more health conditions versus those with none of around 66% in our dataset\nGiven that we know the reference probability is around 25% from the study design, for our study approximately 92% of people who had 3+ health conditions received an FPN"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#we-know-things",
     "href": "what_to_do_odds_ratios.html#we-know-things",
     "title": "What to do with an odds ratio of 35?",
     "section": "We know things",
-    "text": "We know things\n\nOne helpful thought from framing marginal effects as picking points off this line is that it emphasises that you can decide which population you want to describe your results as being ‘marginalized’ over\nWe know that a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly\nIn fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.001% (McVie and Matthews 2021), not 25%"
+    "text": "We know things\n\nOne helpful thought from framing marginal effects as picking points off this line is that it emphasises that you can decide which population you want to describe your results as being ‘marginalized’ over\nWe know that thinking of a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly\nIn fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.001% (McVie and Matthews 2021), not 25%"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#our-plot-again",
     "href": "what_to_do_odds_ratios.html#our-plot-again",
     "title": "What to do with an odds ratio of 35?",
     "section": "Our plot again",
-    "text": "Our plot again\n\n\n fig-alt=“Insert alt text.”}\n\n\nThis is an increase in probabilities of closer to 1.5 percentage points not 66\nBut now I’ve done this I’m not sure it’s told us anything that useful?"
+    "text": "Our plot again\n\n\n fig-alt=“Insert alt text.”}\n\n\nThis is an increase in probabilities of closer to 3 percentage points not 66"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#what-did-i-learn",
     "href": "what_to_do_odds_ratios.html#what-did-i-learn",
     "title": "What to do with an odds ratio of 35?",
     "section": "What did I learn?",
-    "text": "What did I learn?\n\nFrom just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio\nIf you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this\nNot AMEs though, and I’m not sure about confidence intervals"
+    "text": "What did I learn?\n\nFrom just an odds ratio you can figure out all the possible marginal effects consistent with this odds ratio\nIf you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this. Seems neat!\nNot AMEs though, and I’m not sure about confidence intervals"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#was-all-this-pointless",
     "href": "what_to_do_odds_ratios.html#was-all-this-pointless",
     "title": "What to do with an odds ratio of 35?",
     "section": "Was all this pointless?",
-    "text": "Was all this pointless?\n\nHaving done all this, I actually don’t think we’ll use this in our paper. Thinking hard about the population that we’re interested in made me wonder..\n… and what’s wrong with an odds ratio of 35 anyway?\nThis is an accurate description of our dataset! (No need for confidence intervals here?)\nIf the problem is that we don’t think a result this extreme would generalize to another ‘sample’ from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people)?"
+    "text": "Was all this pointless?\n\nHaving done all this, I actually don’t think we’ll use this in our paper. Thinking hard about the population that we’re interested in made me wonder..\n… and what’s wrong with an odds ratio of 35 anyway?\nThis is an accurate description of our dataset! (No need for confidence intervals here?)\nIf the problem is that we don’t think a result this extreme would generalize to another ‘sample’ from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people, minus matching error)?"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#was-all-this-pointless-1",
@@ -147,31 +140,31 @@
     "text": "Was all this pointless?\n\nInstead of generalizability, I think we have either a massive issue with transportability/external validity (Degtiar and Rose 2023), or we have no issue at all\nIt seems nonsensical to suggest that these results would apply to another country during Covid or another pandemic (countries were very different in their responses)\nThe results for lockdown one in Scotland don’t even generalize to lockdown two - we show that in our analysis!"
   },
   {
+    "objectID": "what_to_do_odds_ratios.html#generalizability-transportability-and-covid",
+    "href": "what_to_do_odds_ratios.html#generalizability-transportability-and-covid",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Generalizability, transportability and Covid",
+    "text": "Generalizability, transportability and Covid\n\nThis might be pretty unique to studying Covid?\nA further thought: does this means that we don’t really need confidence intervals? Common logic for confidence intervals for observational data from other contexts doesn’t seem to apply:\nIn the context of US congressional elections:\n\n\nWe would’ve got the wrong answer if we had tried to get uncertainties for our estimates [of electoral results under different ‘swing’ patterns] by “bootstrapping” the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.\n\n\nSee (Gelman 2011)"
+  },
+  {
     "objectID": "what_to_do_odds_ratios.html#uncertainty-in-observational-data",
     "href": "what_to_do_odds_ratios.html#uncertainty-in-observational-data",
     "title": "What to do with an odds ratio of 35?",
     "section": "Uncertainty in observational data",
-    "text": "Uncertainty in observational data\n\nThis might be pretty unique to studying Covid?\nAnd does this means that we don’t really need confidence intervals here? Common logic from other contexts doesn’t seem to apply:\nIn the context of US congressional elections:\n\n\nWe would’ve got the wrong answer if we had tried to get uncertainties for our estimates [of electoral results under different ‘swing’ patterns] by “bootstrapping” the 435 congressional elections. We wanted inferences for these 435 under hypothetical alternative conditions, not inference for the entire population or for another sample of 435.\n\n\nSee (Gelman 2011)"
+    "text": "Uncertainty in observational data\n\nMaybe we care about uncertainty in our inferences more in the sense of model misspesification (like Approximate Maximum Influence Perturbation (Broderick, Giordano, and Meager 2023))? But even these kinds of measures are framed as being about differences between sample and population\nPerhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn’t match so maybe this is worth considering\nNot clear what we should do about that though! (Thoughts appreciated!)"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#uncertainty-in-observational-data-1",
-    "href": "what_to_do_odds_ratios.html#uncertainty-in-observational-data-1",
+    "objectID": "what_to_do_odds_ratios.html#in-summary",
+    "href": "what_to_do_odds_ratios.html#in-summary",
     "title": "What to do with an odds ratio of 35?",
-    "section": "Uncertainty in observational data",
-    "text": "Uncertainty in observational data\n\nMaybe we care about uncertainty in our inferences more in the sense that a small number of cases may be really affecting our results (like Approximate Maximum Influence Perturbation (Broderick, Giordano, and Meager 2023))? But even these kinds of measures are framed as being about differences between sample and population\nPerhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn’t match so maybe this is worth considering\nNot clear what we should do about that though!"
-  },
-  {
-    "objectID": "what_to_do_odds_ratios.html#conclusions",
-    "href": "what_to_do_odds_ratios.html#conclusions",
-    "title": "What to do with an odds ratio of 35?",
-    "section": "Conclusions",
-    "text": "Conclusions\n\nWe had some large Odds Ratios\nI tried to figure out how we could best interpret them\nIn the end the best way was to say ‘hey we had some large Odds Ratios’"
+    "section": "In summary",
+    "text": "In summary\n\nWe had some large odds ratios\nI tried to figure out how we could best interpret them\nIn the end the best way was probably to say ‘hey we had some large odds ratios’"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#thank-you",
     "href": "what_to_do_odds_ratios.html#thank-you",
     "title": "What to do with an odds ratio of 35?",
     "section": "Thank you!",
-    "text": "Thank you!\n\n\nBroderick, Tamara, Ryan Giordano, and Rachael Meager. 2023. “An Automatic Finite-Sample Robustness Metric: When Can Dropping a Little Data Make a Big Difference?” arXiv. https://arxiv.org/abs/2011.14999.\n\n\nDegtiar, Irina, and Sherri Rose. 2023. “A Review of Generalizability and Transportability.” Annual Review of Statistics and Its Application 10 (1): 501–24. https://doi.org/10.1146/annurev-statistics-042522-103837.\n\n\nGail, Mitchell H., Jay H. Lubin, and Larence V. Rubinstein. 1981. “Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.” Biometrika 68 (3): 703–7. https://doi.org/10.1093/biomet/68.3.703.\n\n\nGelman, King. 2011. “How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?” Statistical Modeling, Causal Inference, and Social Science.\n\n\nKuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. “Unconditional or Conditional Logistic Regression Model for Age-Matched CaseControl Data?” Frontiers in Public Health 6.\n\n\nMcVie, Susan, and Ben Matthews. 2021. “Third Data Report on Police Use of Fixed Penalty Notices Under the Coronavirus Regulations in Scotland: March to December 2020.”"
+    "text": "Thank you!\n\n\nBroderick, Tamara, Ryan Giordano, and Rachael Meager. 2023. “An Automatic Finite-Sample Robustness Metric: When Can Dropping a Little Data Make a Big Difference?” arXiv. https://arxiv.org/abs/2011.14999.\n\n\nDegtiar, Irina, and Sherri Rose. 2023. “A Review of Generalizability and Transportability.” Annual Review of Statistics and Its Application 10 (1): 501–24. https://doi.org/10.1146/annurev-statistics-042522-103837.\n\n\nFosse, Ethan, and Christopher Winship. 2019. “Bounding Analyses of Age-Period-Cohort Effects.” Demography 56 (5): 1975–2004. https://doi.org/10.1007/s13524-019-00801-6.\n\n\nGail, Mitchell H., Jay H. Lubin, and Larence V. Rubinstein. 1981. “Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.” Biometrika 68 (3): 703–7. https://doi.org/10.1093/biomet/68.3.703.\n\n\nGelman, King. 2011. “How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?” Statistical Modeling, Causal Inference, and Social Science.\n\n\nGreenland, Sander. 2021. “Noncollapsibility, Confounding, and Sparse-Data Bias. Part 1: The Oddities of Odds.” Journal of Clinical Epidemiology 138 (October): 178–81. https://doi.org/10.1016/j.jclinepi.2021.06.007.\n\n\nKuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. “Unconditional or Conditional Logistic Regression Model for Age-Matched CaseControl Data?” Frontiers in Public Health 6.\n\n\nMcVie, Susan, and Ben Matthews. 2021. “Third Data Report on Police Use of Fixed Penalty Notices Under the Coronavirus Regulations in Scotland: March to December 2020.”"
   }
 ]

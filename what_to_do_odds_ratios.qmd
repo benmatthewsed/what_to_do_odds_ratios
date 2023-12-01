@@ -20,50 +20,58 @@ editor: visual
 ## Background
 
 -   This question came from the [Policing the Pandemic in Scotland](https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic) project with excellent colleagues [Dr Vicky Gorton](https://www.law.ed.ac.uk/people/dr-victoria-gorton) and [Prof Susan McVie](https://www.law.ed.ac.uk/people/professor-susan-mcvie)
--   Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls
--   We want to know if people with more 'vulnerability' (read - health service use) are more likely than others to have received a Covid FPN
+-   We linked data on all (well, most) fines received for breaching the Covid regulations in Scotland between 27 March 2020 to 31 May 2021 with information on recipients' health and (some) social circumstances
+
+- We also have information on a comparison group of matched controls (matched by age, sex, Local Authority and SIMD decile)
+-   We want to know if people with more 'vulnerability' (read - health service use) are more likely than others to have received a Covid fine (FPN)
 
 ## Case-controls and conditional logistic regression
 
 -   Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression [@gailLikelihoodCalculationsMatched1981]
--   (Although some people say this is the wrong method because of course they do [@kuoUnconditionalConditionalLogistic2018])
--   We had **three** controls for each case, and around 18,000 FPNs with a match rate around 85%
+-   Although some people say this is the wrong method because of course they do [@kuoUnconditionalConditionalLogistic2018]
+-   We had three controls for each case, and around 18,000 FPNs with a match rate around 85%
 
 ## Case-controls and conditional logistic regression
 
 -   One downside of the case-control design (and associated methods) is that the intercept in your regression model is basically meaningless (`clogit` in Stata [doesn't even report it](https://www.stata.com/manuals/rclogit.pdf))
 
--   This is because the model's intercept reflects the prevalence of your outcome in your data for your reference category
+-   This is because a model's intercept reflects the prevalence of your outcome in your data for your reference category
 
--   With a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!
+-   With a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%. 
+
+- This tells us nothing useful about Covid FPNs!
 
 ## Case-controls and conditional logistic regression
 
--   So we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN
+-   So we default to using odds ratios to understand the association between service use and receiving a FPN
 
--   However, some of our odds ratios are very high (up to 35!) (specifically for the association between multiple contacts with health services and FPN receipt in lockdown one)
+-   However, some of our odds ratios are very high (up to 35!)
 
--   If we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives
+- Specifically this was for the association between multiple contacts with health services and FPN receipt during Lockdown One
 
--   ... but we can't do this
+-   If we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables and be done with it
+
+-   ... but we can't do this. So we've been puzzling about what we *can* do. 
 
 ## So what now?
 
--   So we've been puzzling about what we *can* do. What follows is the result of going down this rabbit-hole
+-   What follows is the result of going down this rabbit-hole
 
--   What follows is only loosely related to our actual project!
+- (Turns out, there are lots of rabbit-holes when it comes to odds-ratios! [@greenlandNoncollapsibilityConfoundingSparsedata2021])
 
-## Describe 'em all
+## A universe of marginal effects
 
--   What we want to do is describe our Odds Ratios as differences in probabilities
+-   What we want to do is describe our odds ratios as differences in probabilities
 
--   What we can do is describe *all* the differences in probabilities that are consistent with a given Odds Ratio
+- The problem is that every odds ratio is compatible with a whole bunch of marginal effects
 
--   This is just maths - for a given Odds Ratio and a fixed 'reference' probability, we can calculate the difference in probabilities between comparison and reference categories
+-   One thing we can do is describe *all* the differences in probabilities that are consistent with a given odds ratio (sort of like visualising the line of solutions in an age-period-cohort model [@fosseBoundingAnalysesAgePeriodCohort2019])
 
--   So if we just take a bunch of reference probabilities and Odds Ratios we can calculate the difference in probabilities that the odds ratios describe
+-   This is just maths - for a given odds ratio and a fixed 'reference' probability, we can calculate the difference in probabilities between comparison and reference categories
 
-## Probabilities
+-   So if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe
+
+## Visualizing odds ratios
 
 ::: columns
 ::: {.column width="70%"}
@@ -77,7 +85,7 @@ editor: visual
 
 
 
-## Difference in probabilities
+## Visualizing Δ in odds ratios
 
 ::: columns
 ::: {.column width="70%"}
@@ -90,7 +98,7 @@ _This is the same data as the previous plot but showing the difference probabili
 :::
  
 
-## Example plot
+## Visualizing an odds ratio of 35
 
 
 ::: columns
@@ -106,7 +114,7 @@ _This is the same data as the previous plot but showing the difference probabili
 
 ## The Universe of marginal effects
 
--   Every marginal effect for an Odds Ratio of 35 is on this line
+-   Every marginal effect for an odds ratio of 35 is on this line
 
 -   Aside: This is also a nice way of thinking about different flavours of marginal effect
 
@@ -146,6 +154,7 @@ _For Marginal Effects at Representative values (MERs) you are picking a few poin
 
 ::: {.column width="30%"}
 _For Average Marginal Effects you get a point on this curve for every person/row in your dataset and then you take the average_
+
 :::
 :::
 
@@ -154,30 +163,22 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 
 ::: columns
 ::: {.column width="70%"}
-![](03_figures/our_dat_plot.png) fig-alt="Insert alt text."}
+![](03_figures/our_dat_plot.png){fig-alt="Insert alt text."}
 :::
 
 ::: {.column width="30%"}
-- Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!
--  Given that we know the refrence probability is around 25% from the study design, for our study approximately 92% of people who had a FPN during lockdown one had 3 or more health conditions?
+- Very approximately, our odds ratio of 35 implies a difference in probabilities in receiving a FPN between people who had 3 or more health conditions versus those with none of around 66% _in our dataset_
+-  Given that we know the reference probability is around 25% from the study design, for our study approximately 92% of people who had 3+ health conditions received an FPN
 :::
 :::
 
 
-
-## Back to our data
-
--   increase in prob from prob of having an fpn with ! 3 or more health conditions
-
--   so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health
-
--   compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health
 
 ## We know things
 
 -   One helpful thought from framing marginal effects as picking points off this line is that it emphasises that you can decide which population you want to describe your results as being 'marginalized' over
 
--   We know that a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly
+-   We know that thinking of a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly
 
 -   In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.001% [@mcvieThirdDataReport2021], not 25%
 
@@ -189,9 +190,8 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 :::
 
 ::: {.column width="30%"}
--   This is an increase in probabilities of closer to 1.5 percentage points not 66
+-   This is an increase in probabilities of closer to 3 percentage points not 66
 
-- But now I've done this I'm not sure it's told us anything that useful?
 :::
 :::
 
@@ -199,11 +199,12 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 
 ## What did I learn?
 
--   From just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio
+-   From just an odds ratio you can figure out all the possible marginal effects consistent with this odds ratio
 
--   If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn't give you this
+-   If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn't give you this. Seems neat!
 
 - Not AMEs though, and I'm not sure about confidence intervals
+
 
 ## Was all this pointless?
 
@@ -213,7 +214,7 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 
 -   This is an accurate description of our dataset! (No need for confidence intervals here?)
 
--   If the problem is that we don't think a result this extreme would generalize to another 'sample' from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people)?
+-   If the problem is that we don't think a result this extreme would generalize to another 'sample' from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people, minus matching error)?
 
 ## Was all this pointless?
 
@@ -225,11 +226,11 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 
 
 
-## Uncertainty in observational data
+## Generalizability, transportability and Covid
 
 -   This might be pretty unique to studying Covid? 
 
-- And does this means that we don't really need confidence intervals here? Common logic from other contexts doesn't seem to apply:
+- A further thought: does this means that we don't really need confidence intervals? Common logic for confidence intervals for observational data from other contexts doesn't seem to apply:
 
 -   In the context of US congressional elections:
 
@@ -240,19 +241,19 @@ _For Average Marginal Effects you get a point on this curve for every person/row
 
 ## Uncertainty in observational data
 
-- Maybe we care about uncertainty in our inferences more in the sense that a small number of cases may be really affecting our results (like Approximate Maximum Influence Perturbation [@broderickAutomaticFiniteSampleRobustness2023])? But even these kinds of measures are framed as being about differences between sample and population
+- Maybe we care about uncertainty in our inferences more in the sense of model misspesification (like [Approximate Maximum Influence Perturbation](https://github.com/rgiordan/zaminfluence) [@broderickAutomaticFiniteSampleRobustness2023])? But even these kinds of measures are framed as being about differences between sample and population
 
 - Perhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn't match so maybe this is worth considering
 
-- Not clear what we should do about that though!
+- Not clear what we should do about that though! (Thoughts appreciated!)
 
-## Conclusions
+## In summary
 
--   We had some large Odds Ratios
+-   We had some large odds ratios
 
 -   I tried to figure out how we could best interpret them
 
--   In the end the best way was to say 'hey we had some large Odds Ratios'
+-   In the end the best way was probably to say 'hey we had some large odds ratios'
 
 ## Thank you! {.smaller}
 

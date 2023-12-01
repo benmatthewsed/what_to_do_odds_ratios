@@ -366,54 +366,58 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <section id="background" class="slide level2">
 <h2>Background</h2>
 <ul>
-<li>This question came from the <a href="https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic">Policing the Pandemic in Scotland</a> project with excellent colleagues <a href="https://www.law.ed.ac.uk/people/dr-victoria-gorton">Dr Vicky Gorton</a> and <a href="https://www.law.ed.ac.uk/people/professor-susan-mcvie">Prof Susan McVie</a></li>
-<li>Vicky has been leading on our linked data analysis, which has brought together data on all people in Scotland who received a FPN for breaching the covid regulations between X and Y with information on their health and (some) social circumstances, as well as a comparison group of matched controls</li>
-<li>We want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid FPN</li>
+<li><p>This question came from the <a href="https://www.law.ed.ac.uk/research/research-projects/policing-the-pandemic">Policing the Pandemic in Scotland</a> project with excellent colleagues <a href="https://www.law.ed.ac.uk/people/dr-victoria-gorton">Dr Vicky Gorton</a> and <a href="https://www.law.ed.ac.uk/people/professor-susan-mcvie">Prof Susan McVie</a></p></li>
+<li><p>We linked data on all (well, most) fines received for breaching the Covid regulations in Scotland between 27 March 2020 to 31 May 2021 with information on recipients’ health and (some) social circumstances</p></li>
+<li><p>We also have information on a comparison group of matched controls (matched by age, sex, Local Authority and SIMD decile)</p></li>
+<li><p>We want to know if people with more ‘vulnerability’ (read - health service use) are more likely than others to have received a Covid fine (FPN)</p></li>
 </ul>
 </section>
 <section id="case-controls-and-conditional-logistic-regression" class="slide level2">
 <h2>Case-controls and conditional logistic regression</h2>
 <ul>
 <li>Because we have a case-control study design (all people we know received a FPN and matched controls), we used conditional logistic regression <span class="citation" data-cites="gailLikelihoodCalculationsMatched1981">(<a href="#/thank-you" role="doc-biblioref" onclick="">Gail, Lubin, and Rubinstein 1981</a>)</span></li>
-<li>(Although some people say this is the wrong method because of course they do <span class="citation" data-cites="kuoUnconditionalConditionalLogistic2018">(<a href="#/thank-you" role="doc-biblioref" onclick="">Kuo, Duan, and Grady 2018</a>)</span>)</li>
-<li>We had <strong>three</strong> controls for each case, and around 18,000 FPNs with a match rate around 85%</li>
+<li>Although some people say this is the wrong method because of course they do <span class="citation" data-cites="kuoUnconditionalConditionalLogistic2018">(<a href="#/thank-you" role="doc-biblioref" onclick="">Kuo, Duan, and Grady 2018</a>)</span></li>
+<li>We had three controls for each case, and around 18,000 FPNs with a match rate around 85%</li>
 </ul>
 </section>
 <section id="case-controls-and-conditional-logistic-regression-1" class="slide level2">
 <h2>Case-controls and conditional logistic regression</h2>
 <ul>
 <li><p>One downside of the case-control design (and associated methods) is that the intercept in your regression model is basically meaningless (<code>clogit</code> in Stata <a href="https://www.stata.com/manuals/rclogit.pdf">doesn’t even report it</a>)</p></li>
-<li><p>This is because the model’s intercept reflects the prevalence of your outcome in your data for your reference category</p></li>
-<li><p>With a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%. This tells us nothing useful!</p></li>
+<li><p>This is because a model’s intercept reflects the prevalence of your outcome in your data for your reference category</p></li>
+<li><p>With a case-control design, the prevalence of the outcome is set by the study design - with three controls for every case the prevalence of the outcome for the whole study is going to be 25%.</p></li>
+<li><p>This tells us nothing useful about Covid FPNs!</p></li>
 </ul>
 </section>
 <section id="case-controls-and-conditional-logistic-regression-2" class="slide level2">
 <h2>Case-controls and conditional logistic regression</h2>
 <ul>
-<li><p>So we (as is recommended) default to using Odds Ratios to understand the association between service use and receiving a FPN</p></li>
-<li><p>However, some of our odds ratios are very high (up to 35!) (specifically for the association between multiple contacts with health services and FPN receipt in lockdown one)</p></li>
-<li><p>If we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables, present them as differences in the probability of receiving a FPN and get on with our lives</p></li>
-<li><p>… but we can’t do this</p></li>
+<li><p>So we default to using odds ratios to understand the association between service use and receiving a FPN</p></li>
+<li><p>However, some of our odds ratios are very high (up to 35!)</p></li>
+<li><p>Specifically this was for the association between multiple contacts with health services and FPN receipt during Lockdown One</p></li>
+<li><p>If we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables and be done with it</p></li>
+<li><p>… but we can’t do this. So we’ve been puzzling about what we <em>can</em> do.</p></li>
 </ul>
 </section>
 <section id="so-what-now" class="slide level2">
 <h2>So what now?</h2>
 <ul>
-<li><p>So we’ve been puzzling about what we <em>can</em> do. What follows is the result of going down this rabbit-hole</p></li>
-<li><p>What follows is only loosely related to our actual project!</p></li>
+<li><p>What follows is the result of going down this rabbit-hole</p></li>
+<li><p>(Turns out, there are lots of rabbit-holes when it comes to odds-ratios! <span class="citation" data-cites="greenlandNoncollapsibilityConfoundingSparsedata2021">(<a href="#/thank-you" role="doc-biblioref" onclick="">Greenland 2021</a>)</span>)</p></li>
 </ul>
 </section>
-<section id="describe-em-all" class="slide level2">
-<h2>Describe ’em all</h2>
+<section id="a-universe-of-marginal-effects" class="slide level2">
+<h2>A universe of marginal effects</h2>
 <ul>
-<li><p>What we want to do is describe our Odds Ratios as differences in probabilities</p></li>
-<li><p>What we can do is describe <em>all</em> the differences in probabilities that are consistent with a given Odds Ratio</p></li>
-<li><p>This is just maths - for a given Odds Ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities between comparison and reference categories</p></li>
-<li><p>So if we just take a bunch of reference probabilities and Odds Ratios we can calculate the difference in probabilities that the odds ratios describe</p></li>
+<li><p>What we want to do is describe our odds ratios as differences in probabilities</p></li>
+<li><p>The problem is that every odds ratio is compatible with a whole bunch of marginal effects</p></li>
+<li><p>One thing we can do is describe <em>all</em> the differences in probabilities that are consistent with a given odds ratio (sort of like visualising the line of solutions in an age-period-cohort model <span class="citation" data-cites="fosseBoundingAnalysesAgePeriodCohort2019">(<a href="#/thank-you" role="doc-biblioref" onclick="">Fosse and Winship 2019</a>)</span>)</p></li>
+<li><p>This is just maths - for a given odds ratio and a fixed ‘reference’ probability, we can calculate the difference in probabilities between comparison and reference categories</p></li>
+<li><p>So if we just take a bunch of reference probabilities and odds ratios we can calculate the difference in probabilities that the odds ratios describe</p></li>
 </ul>
 </section>
-<section id="probabilities" class="slide level2">
-<h2>Probabilities</h2>
+<section id="visualizing-odds-ratios" class="slide level2">
+<h2>Visualizing odds ratios</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <p><img data-src="03_figures/merlo_plot.png" alt="Insert alt text."></p>
@@ -422,8 +426,8 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 </div>
 </div>
 </section>
-<section id="difference-in-probabilities" class="slide level2">
-<h2>Difference in probabilities</h2>
+<section id="visualizing-δ-in-odds-ratios" class="slide level2">
+<h2>Visualizing Δ in odds ratios</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <p><img data-src="03_figures/diff_plot.png" alt="Insert alt text."></p>
@@ -432,8 +436,8 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 </div>
 </div>
 </section>
-<section id="example-plot" class="slide level2">
-<h2>Example plot</h2>
+<section id="visualizing-an-odds-ratio-of-35" class="slide level2">
+<h2>Visualizing an odds ratio of 35</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <p><img data-src="03_figures/sample_plot.png" alt="Insert alt text."></p>
@@ -445,7 +449,7 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <section id="the-universe-of-marginal-effects" class="slide level2">
 <h2>The Universe of marginal effects</h2>
 <ul>
-<li><p>Every marginal effect for an Odds Ratio of 35 is on this line</p></li>
+<li><p>Every marginal effect for an odds ratio of 35 is on this line</p></li>
 <li><p>Aside: This is also a nice way of thinking about different flavours of marginal effect</p></li>
 </ul>
 </section>
@@ -483,28 +487,20 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <h2>Back to our data</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
-<p><img data-src="03_figures/our_dat_plot.png"> fig-alt=“Insert alt text.”}</p>
+<p><img data-src="03_figures/our_dat_plot.png" alt="Insert alt text."></p>
 </div><div class="column" style="width:30%;">
 <ul>
-<li>Very approximately, our Odds Ratio of 35 implies a difference in probabilities of around 66%!</li>
-<li>Given that we know the refrence probability is around 25% from the study design, for our study approximately 92% of people who had a FPN during lockdown one had 3 or more health conditions?</li>
+<li>Very approximately, our odds ratio of 35 implies a difference in probabilities in receiving a FPN between people who had 3 or more health conditions versus those with none of around 66% <em>in our dataset</em></li>
+<li>Given that we know the reference probability is around 25% from the study design, for our study approximately 92% of people who had 3+ health conditions received an FPN</li>
 </ul>
 </div>
 </div>
-</section>
-<section id="back-to-our-data-1" class="slide level2">
-<h2>Back to our data</h2>
-<ul>
-<li><p>increase in prob from prob of having an fpn with ! 3 or more health conditions</p></li>
-<li><p>so n_fpn !3+ health / n_fpn 3+ health + n_ctrl 3+ health</p></li>
-<li><p>compared to n_fpn 3+ health / n_fpn 3+ health + n_ctrl 3+health</p></li>
-</ul>
 </section>
 <section id="we-know-things" class="slide level2">
 <h2>We know things</h2>
 <ul>
 <li><p>One helpful thought from framing marginal effects as picking points off this line is that it emphasises that you can decide which population you want to describe your results as being ‘marginalized’ over</p></li>
-<li><p>We know that a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly</p></li>
+<li><p>We know that thinking of a difference in probabilities in a world where a quarter of all people in Scotland were fined for breaching Covid rules is silly</p></li>
 <li><p>In fact, we know pretty precisely that the prevalence of getting a FPN in lockdown one for the whole population was around 0.001% <span class="citation" data-cites="mcvieThirdDataReport2021">(<a href="#/thank-you" role="doc-biblioref" onclick="">McVie and Matthews 2021</a>)</span>, not 25%</p></li>
 </ul>
 </section>
@@ -515,8 +511,7 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <p><img data-src="03_figures/our_dat_plot2.png"> fig-alt=“Insert alt text.”}</p>
 </div><div class="column" style="width:30%;">
 <ul>
-<li><p>This is an increase in probabilities of closer to 1.5 percentage points not 66</p></li>
-<li><p>But now I’ve done this I’m not sure it’s told us anything that useful?</p></li>
+<li>This is an increase in probabilities of closer to 3 percentage points not 66</li>
 </ul>
 </div>
 </div>
@@ -524,8 +519,8 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <section id="what-did-i-learn" class="slide level2">
 <h2>What did I learn?</h2>
 <ul>
-<li><p>From just an Odds Ratio you can figure out all the possible marginal effects consistent with this Odds Ratio</p></li>
-<li><p>If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this</p></li>
+<li><p>From just an odds ratio you can figure out all the possible marginal effects consistent with this odds ratio</p></li>
+<li><p>If you have additional information (like we did) this means you can manually come up with a guesstimate of a marginal effect for a value/range of values that you care about, even if the original analysis/model doesn’t give you this. Seems neat!</p></li>
 <li><p>Not AMEs though, and I’m not sure about confidence intervals</p></li>
 </ul>
 </section>
@@ -535,7 +530,7 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <li><p>Having done all this, I actually don’t think we’ll use this in our paper. Thinking hard about the population that we’re interested in made me wonder..</p></li>
 <li><p>… and what’s wrong with an odds ratio of 35 anyway?</p></li>
 <li><p>This is an accurate description of our dataset! (No need for confidence intervals here?)</p></li>
-<li><p>If the problem is that we don’t think a result this extreme would generalize to another ‘sample’ from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people)?</p></li>
+<li><p>If the problem is that we don’t think a result this extreme would generalize to another ‘sample’ from the sample population - with close to every person who received an FPN do we even have any issues of generalizability (we have basically 100% of the relevant people, minus matching error)?</p></li>
 </ul>
 </section>
 <section id="was-all-this-pointless-1" class="slide level2">
@@ -546,11 +541,11 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <li><p>The results for lockdown one in Scotland don’t even generalize to lockdown two - we show that in our analysis!</p></li>
 </ul>
 </section>
-<section id="uncertainty-in-observational-data" class="slide level2">
-<h2>Uncertainty in observational data</h2>
+<section id="generalizability-transportability-and-covid" class="slide level2">
+<h2>Generalizability, transportability and Covid</h2>
 <ul>
 <li><p>This might be pretty unique to studying Covid?</p></li>
-<li><p>And does this means that we don’t really need confidence intervals here? Common logic from other contexts doesn’t seem to apply:</p></li>
+<li><p>A further thought: does this means that we don’t really need confidence intervals? Common logic for confidence intervals for observational data from other contexts doesn’t seem to apply:</p></li>
 <li><p>In the context of US congressional elections:</p></li>
 </ul>
 <blockquote>
@@ -560,20 +555,20 @@ Dr.&nbsp;Ben Matthews | University of Stirling
 <li>See <span class="citation" data-cites="gelmanHowYouInterpret2011">(<a href="#/thank-you" role="doc-biblioref" onclick="">Gelman 2011</a>)</span></li>
 </ul>
 </section>
-<section id="uncertainty-in-observational-data-1" class="slide level2">
+<section id="uncertainty-in-observational-data" class="slide level2">
 <h2>Uncertainty in observational data</h2>
 <ul>
-<li><p>Maybe we care about uncertainty in our inferences more in the sense that a small number of cases may be really affecting our results (like Approximate Maximum Influence Perturbation <span class="citation" data-cites="broderickAutomaticFiniteSampleRobustness2023">(<a href="#/thank-you" role="doc-biblioref" onclick="">Broderick, Giordano, and Meager 2023</a>)</span>)? But even these kinds of measures are framed as being about differences between sample and population</p></li>
+<li><p>Maybe we care about uncertainty in our inferences more in the sense of model misspesification (like <a href="https://github.com/rgiordan/zaminfluence">Approximate Maximum Influence Perturbation</a> <span class="citation" data-cites="broderickAutomaticFiniteSampleRobustness2023">(<a href="#/thank-you" role="doc-biblioref" onclick="">Broderick, Giordano, and Meager 2023</a>)</span>)? But even these kinds of measures are framed as being about differences between sample and population</p></li>
 <li><p>Perhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn’t match so maybe this is worth considering</p></li>
-<li><p>Not clear what we should do about that though!</p></li>
+<li><p>Not clear what we should do about that though! (Thoughts appreciated!)</p></li>
 </ul>
 </section>
-<section id="conclusions" class="slide level2">
-<h2>Conclusions</h2>
+<section id="in-summary" class="slide level2">
+<h2>In summary</h2>
 <ul>
-<li><p>We had some large Odds Ratios</p></li>
+<li><p>We had some large odds ratios</p></li>
 <li><p>I tried to figure out how we could best interpret them</p></li>
-<li><p>In the end the best way was to say ‘hey we had some large Odds Ratios’</p></li>
+<li><p>In the end the best way was probably to say ‘hey we had some large odds ratios’</p></li>
 </ul>
 </section>
 <section id="thank-you" class="slide level2 smaller scrollable">
@@ -585,11 +580,17 @@ Broderick, Tamara, Ryan Giordano, and Rachael Meager. 2023. <span>“An <span>Au
 <div id="ref-degtiarReviewGeneralizabilityTransportability2023" class="csl-entry" role="listitem">
 Degtiar, Irina, and Sherri Rose. 2023. <span>“A <span>Review</span> of <span>Generalizability</span> and <span>Transportability</span>.”</span> <em>Annual Review of Statistics and Its Application</em> 10 (1): 501–24. <a href="https://doi.org/10.1146/annurev-statistics-042522-103837">https://doi.org/10.1146/annurev-statistics-042522-103837</a>.
 </div>
+<div id="ref-fosseBoundingAnalysesAgePeriodCohort2019" class="csl-entry" role="listitem">
+Fosse, Ethan, and Christopher Winship. 2019. <span>“Bounding <span>Analyses</span> of <span>Age-Period-Cohort Effects</span>.”</span> <em>Demography</em> 56 (5): 1975–2004. <a href="https://doi.org/10.1007/s13524-019-00801-6">https://doi.org/10.1007/s13524-019-00801-6</a>.
+</div>
 <div id="ref-gailLikelihoodCalculationsMatched1981" class="csl-entry" role="listitem">
 Gail, Mitchell H., Jay H. Lubin, and Larence V. Rubinstein. 1981. <span>“Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.”</span> <em>Biometrika</em> 68 (3): 703–7. <a href="https://doi.org/10.1093/biomet/68.3.703">https://doi.org/10.1093/biomet/68.3.703</a>.
 </div>
 <div id="ref-gelmanHowYouInterpret2011" class="csl-entry" role="listitem">
 Gelman, King. 2011. <span>“How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?”</span> <em>Statistical Modeling, Causal Inference, and Social Science</em>.
+</div>
+<div id="ref-greenlandNoncollapsibilityConfoundingSparsedata2021" class="csl-entry" role="listitem">
+Greenland, Sander. 2021. <span>“Noncollapsibility, Confounding, and Sparse-Data Bias. <span>Part</span> 1: <span>The</span> Oddities of Odds.”</span> <em>Journal of Clinical Epidemiology</em> 138 (October): 178–81. <a href="https://doi.org/10.1016/j.jclinepi.2021.06.007">https://doi.org/10.1016/j.jclinepi.2021.06.007</a>.
 </div>
 <div id="ref-kuoUnconditionalConditionalLogistic2018" class="csl-entry" role="listitem">
 Kuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. <span>“Unconditional or <span>Conditional Logistic Regression Model</span> for <span>Age-Matched Case</span><span></span><span>Control Data</span>?”</span> <em>Frontiers in Public Health</em> 6.

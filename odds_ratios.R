@@ -361,7 +361,7 @@ dat3 |>
                                 mutate(p_diff = p_or - p_ref) |> 
                                 filter(log_or == 35),
                               aes(label = log_or)) +
-  geom_vline(aes(xintercept = 0.00044)) +
+  geom_vline(aes(xintercept = 0.001)) +
   theme_minimal() +
   labs(x = "Probability in reference group",
        y = "Difference in probability in comparison group",
@@ -377,7 +377,7 @@ ggsave(
 
 dat3 |> 
   mutate(p_diff = p_or - p_ref) |> 
-  filter(round(p_ref, 5) == 0.00044,
+  filter(round(p_ref, 5) == 0.001,
          log_or == 35)
 
 
