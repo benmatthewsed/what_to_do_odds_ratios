@@ -8,7 +8,8 @@ format:
   revealjs:
     smaller: true
     scrollable: true
-    theme: default
+    theme: [default, custom.scss]
+engine: knitr
 editor: visual
 ---
 
@@ -17,13 +18,6 @@ editor: visual
 -   This is *extremely* work-in-progress!
 -   Any and all comments much appreciated
 
-## Roadmap
-
--   Some minimal context
--   Analysing case-control data
--   Odds Ratios and differences in probabilities
--   Generalizability and transportability
--   Uncertainty
 
 ## Background
 
@@ -63,11 +57,15 @@ editor: visual
 
 -   ... but we can't do this. So we've been puzzling about what we *can* do.
 
-## So what now?
+## Down the rabbit hole {background-image="https://images.unsplash.com/photo-1578164252392-83ddb77de36c?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
--   What follows is the result of going down this rabbit-hole
+```{scss, echo=FALSE}
+#color-slide, 
+#color-slide h2 {
+ color: white;
+}
 
--   Turns out, there are lots of rabbit-holes when it comes to odds-ratios... [@greenlandNoncollapsibilityConfoundingSparsedata2021]
+```
 
 ## A universe of marginal effects
 
@@ -243,7 +241,7 @@ Given that we know the reference probability is around 25% from the study design
 
 ## Uncertainty in observational data
 
--   Maybe we care about uncertainty in our inferences more in the sense of model misspecification (like [Approximate Maximum Influence Perturbation](https://github.com/rgiordan/zaminfluence); [@broderickAutomaticFiniteSampleRobustness2023]? But even these kinds of measures are framed as being about differences between sample and population
+-   Maybe we care about uncertainty in our inferences more in the sense of model misspecification (like [e.g. @broderickAutomaticFiniteSampleRobustness2023]? But even these kinds of measures are framed as being about differences between sample and population
 
 -   Perhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn't match so maybe this is worth considering
 
@@ -263,3 +261,10 @@ Given that we know the reference probability is around 25% from the study design
 
 ::: {#refs}
 :::
+
+## Unplash links
+
+Shoes in case: Photo by <a href="https://unsplash.com/@arnelhasanovic?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Arnel Hasanovic</a> on <a href="https://unsplash.com/photos/pair-of-green-leather-shoes-P3xGIbZD-iw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+two white rabbits: Photo by <a href="https://unsplash.com/@sincerelymedia?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sincerely Media</a> on <a href="https://unsplash.com/photos/two-white-rabbits-JkgVHEFSolA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  

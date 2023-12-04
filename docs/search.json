@@ -7,13 +7,6 @@
     "text": "Before we begin\n\nThis is extremely work-in-progress!\nAny and all comments much appreciated"
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#roadmap",
-    "href": "what_to_do_odds_ratios.html#roadmap",
-    "title": "What to do with an odds ratio of 35?",
-    "section": "Roadmap",
-    "text": "Roadmap\n\nSome minimal context\nAnalysing case-control data\nOdds Ratios and differences in probabilities\nGeneralizability and transportability\nUncertainty"
-  },
-  {
     "objectID": "what_to_do_odds_ratios.html#background",
     "href": "what_to_do_odds_ratios.html#background",
     "title": "What to do with an odds ratio of 35?",
@@ -42,11 +35,11 @@
     "text": "Case-controls and conditional logistic regression\n\nSo we default to using odds ratios to understand the association between service use and receiving a FPN\nHowever, some of our odds ratios are very high (up to 35!)\nSpecifically this was for the association between multiple contacts with health services and FPN receipt during Lockdown One (NB meaning that the numbers involved are quite small)\nIf we were using regular logistic regression with a general population sample then we could happily calculate marginal effects of our key variables and be done with it\n… but we can’t do this. So we’ve been puzzling about what we can do."
   },
   {
-    "objectID": "what_to_do_odds_ratios.html#so-what-now",
-    "href": "what_to_do_odds_ratios.html#so-what-now",
+    "objectID": "what_to_do_odds_ratios.html#down-the-rabbit-hole",
+    "href": "what_to_do_odds_ratios.html#down-the-rabbit-hole",
     "title": "What to do with an odds ratio of 35?",
-    "section": "So what now?",
-    "text": "So what now?\n\nWhat follows is the result of going down this rabbit-hole\nTurns out, there are lots of rabbit-holes when it comes to odds-ratios… (Greenland 2021)"
+    "section": "Down the rabbit hole",
+    "text": "Down the rabbit hole"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#a-universe-of-marginal-effects",
@@ -165,7 +158,7 @@
     "href": "what_to_do_odds_ratios.html#uncertainty-in-observational-data",
     "title": "What to do with an odds ratio of 35?",
     "section": "Uncertainty in observational data",
-    "text": "Uncertainty in observational data\n\nMaybe we care about uncertainty in our inferences more in the sense of model misspecification (like Approximate Maximum Influence Perturbation; (Broderick, Giordano, and Meager 2023)? But even these kinds of measures are framed as being about differences between sample and population\nPerhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn’t match so maybe this is worth considering\nNot clear what we should do about that though (Thoughts appreciated!)"
+    "text": "Uncertainty in observational data\n\nMaybe we care about uncertainty in our inferences more in the sense of model misspecification (like (e.g. Broderick, Giordano, and Meager 2023)? But even these kinds of measures are framed as being about differences between sample and population\nPerhaps we should be worried about influence of non-matches in the data linkage? More than 10% of cases didn’t match so maybe this is worth considering\nNot clear what we should do about that though (Thoughts appreciated!)"
   },
   {
     "objectID": "what_to_do_odds_ratios.html#in-summary",
@@ -179,6 +172,13 @@
     "href": "what_to_do_odds_ratios.html#thank-you",
     "title": "What to do with an odds ratio of 35?",
     "section": "Thank you!",
-    "text": "Thank you!\n\n\nBroderick, Tamara, Ryan Giordano, and Rachael Meager. 2023. “An Automatic Finite-Sample Robustness Metric: When Can Dropping a Little Data Make a Big Difference?” arXiv. https://arxiv.org/abs/2011.14999.\n\n\nDegtiar, Irina, and Sherri Rose. 2023. “A Review of Generalizability and Transportability.” Annual Review of Statistics and Its Application 10 (1): 501–24. https://doi.org/10.1146/annurev-statistics-042522-103837.\n\n\nFosse, Ethan, and Christopher Winship. 2019. “Bounding Analyses of Age-Period-Cohort Effects.” Demography 56 (5): 1975–2004. https://doi.org/10.1007/s13524-019-00801-6.\n\n\nGail, Mitchell H., Jay H. Lubin, and Larence V. Rubinstein. 1981. “Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.” Biometrika 68 (3): 703–7. https://doi.org/10.1093/biomet/68.3.703.\n\n\nGelman, King. 2011. “How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?” Statistical Modeling, Causal Inference, and Social Science.\n\n\nGreenland, Sander. 2021. “Noncollapsibility, Confounding, and Sparse-Data Bias. Part 1: The Oddities of Odds.” Journal of Clinical Epidemiology 138 (October): 178–81. https://doi.org/10.1016/j.jclinepi.2021.06.007.\n\n\nKuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. “Unconditional or Conditional Logistic Regression Model for Age-Matched CaseControl Data?” Frontiers in Public Health 6.\n\n\nMcVie, Susan, and Ben Matthews. 2021. “Third Data Report on Police Use of Fixed Penalty Notices Under the Coronavirus Regulations in Scotland: March to December 2020.”"
+    "text": "Thank you!\n\n\nBroderick, Tamara, Ryan Giordano, and Rachael Meager. 2023. “An Automatic Finite-Sample Robustness Metric: When Can Dropping a Little Data Make a Big Difference?” arXiv. https://arxiv.org/abs/2011.14999.\n\n\nDegtiar, Irina, and Sherri Rose. 2023. “A Review of Generalizability and Transportability.” Annual Review of Statistics and Its Application 10 (1): 501–24. https://doi.org/10.1146/annurev-statistics-042522-103837.\n\n\nFosse, Ethan, and Christopher Winship. 2019. “Bounding Analyses of Age-Period-Cohort Effects.” Demography 56 (5): 1975–2004. https://doi.org/10.1007/s13524-019-00801-6.\n\n\nGail, Mitchell H., Jay H. Lubin, and Larence V. Rubinstein. 1981. “Likelihood Calculations for Matched Case-Control Studies and Survival Studies with Tied Death Times.” Biometrika 68 (3): 703–7. https://doi.org/10.1093/biomet/68.3.703.\n\n\nGelman, King. 2011. “How Do You Interpret Standard Errors from a Regression Fit to the Entire Population?” Statistical Modeling, Causal Inference, and Social Science.\n\n\nKuo, Chia-Ling, Yinghui Duan, and James Grady. 2018. “Unconditional or Conditional Logistic Regression Model for Age-Matched CaseControl Data?” Frontiers in Public Health 6.\n\n\nMcVie, Susan, and Ben Matthews. 2021. “Third Data Report on Police Use of Fixed Penalty Notices Under the Coronavirus Regulations in Scotland: March to December 2020.”"
+  },
+  {
+    "objectID": "what_to_do_odds_ratios.html#unplash-links",
+    "href": "what_to_do_odds_ratios.html#unplash-links",
+    "title": "What to do with an odds ratio of 35?",
+    "section": "Unplash links",
+    "text": "Unplash links\nShoes in case: Photo by Arnel Hasanovic on Unsplash\ntwo white rabbits: Photo by Sincerely Media on Unsplash"
   }
 ]
